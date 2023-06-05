@@ -7,7 +7,7 @@ class ClienteForm(ModelForm):
         model = Clientes
         fields = ['primeiro_nome', 'ultimo_nome', 'email', 'telefone']
         
-class StatusVeiculoForm(Form):
+class StatusClienteForm(Form):
     fk_status = forms.ModelChoiceField(queryset=Status.objects)
     fk_cliente = forms.ModelChoiceField(queryset=Clientes.objects)
     

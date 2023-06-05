@@ -45,6 +45,7 @@ class Clientes ( models.Model ):
     
 class Marcas ( models.Model ):
     descricao = models.CharField(max_length = 50)
+    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 

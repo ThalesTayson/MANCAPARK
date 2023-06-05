@@ -9,4 +9,12 @@ def formToJson(form):
         data[field].setdefault('is_hidden', obj_field.widget.is_hidden)
         data[field].setdefault('is_required', obj_field.widget.is_required)
         data[field].setdefault('attrs', obj_field.widget.attrs)
+        
+        if data[field]['input_type'] == 'select':
+            choices = []
+            for choice in obj_field.choices.queryset:
+                choices.append({'value': choice.pk, 'text': str(choice) })
+                
+            data[field].setdefault('options', choices)
+            
     return data
