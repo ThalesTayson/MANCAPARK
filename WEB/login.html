@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+<section>
+    <p>
+        Bem-vindo ao meu inovador aplicativo web de portifólio para gerenciamento de estacionamento de veículos!'</p>
+    <p>
+        Neste aplicativo web, você terá acesso a uma poderosa ferramenta que permite cadastrar clientes e veículos com facilidade. 
+        Com apenas alguns cliques, é possível adicionar informações detalhadas sobre os clientes, incluindo seus dados de contato e preferências específicas. 
+        Além disso, você poderá cadastrar os veículos, inserindo informações como marca, modelo e placa, para manter um registro completo e organizado.
+    </p>
+    <p>
+        E Para logar e testar nessa ferramenta você pode usar o "usuario1" com a senha "senh@123" ou "usuario2" com a senha "senh@321".
+    </p>
+    <p>
+        Desenvolvido por Thales Vargas!
+    </p>
+</section>
+<main>
+    <form method="post">
+        <h2>{{ 'Por Favor faça seu login!' }}</h2>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for campo in form %}
+            <p>
+                {{ campo.errors }}
+                {{ campo }}
+                {{ campo.label_tag }}
+                <i></i>
+            </p>
+        {% endfor %}
+        <div>
+            <input class="btn_login" type="submit" value="Entrar">
+        </div>
+    </form>
+</main>
+
+{% endblock %}

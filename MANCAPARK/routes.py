@@ -1,10 +1,10 @@
 from django.urls import include
 from django.urls import path
-from app.views import login
+from app.controllers import loginn
 
 urlpatterns = [
 
-    path('', login, name = 'login'),
-    path('', include('app.urls'), name='app'),
+    path('', loginn, name = 'login'),
+    path('', include('app.routes'), name='app'),
 
 ]

@@ -10,7 +10,7 @@ SECRET_KEY = 'django-insecure--xge3el7t-slg34(fkx++kbt(noci9l#^79))4vgiv72$p*qbu
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -35,7 +35,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'MANCAPARK.urls'
+ROOT_URLCONF = 'MANCAPARK.routes'
 
 TEMPLATES = [
     {
