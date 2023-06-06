@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {submit} from './util';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import Estacionamento from './estacionamento';
+import Clientes from './clientes';
+import Dashboard from './dashboard';
+import Veiculos from './veiculos';
+import Logout from './logout';
 
 const App = () => {
     
@@ -18,22 +23,23 @@ const App = () => {
     <>
         <Router>
             <div className='App'>
-                <Link to='/sistema-inventario/'>Home</Link>
-                <Link to='/sistema-inventario/localidades'>lista</Link>
+                <Link to='/'>Home</Link>
+                <Link to='/clientes'>Clientes</Link>
+                <Link to='/veiculos'>Veiculos</Link>
+                <Link to='/dashboard'>Dashboard</Link>
+                <Link to='/logout'>Sair</Link>
             </div>
             <Routes>
-                <Route exact path='/sistema-inventario/' element={<Filtro 
-                    andar={andar} 
-                    setor={setor}
-                    local={local}
-                    setAndar={setAndar}
-                    setSetor={setSetor}
-                    setLocal={setLocal}
-                    localidades={localidades}
+                <Route exact path='/' element={<Estacionamento 
                     /> } />
-                <Route path='/sistema-inventario/localidades' element={<Localidades
-                                localidades={localidades}
-                                setLocalidades={setLocalidades} 
+
+                <Route path='/clientes' element={<Clientes
+                        />} />
+                <Route path='/veiculos' element={<Veiculos
+                        />} />
+                <Route path='/dashboard' element={<Dashboard
+                        />} />
+                <Route path='/logout' element={<Logout
                         />} />
             </Routes>
         </Router>

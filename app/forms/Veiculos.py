@@ -1,9 +1,10 @@
 from django import forms
 from django.forms import Form, ModelForm
-from app.models import Veiculos, Modelos, Marcas, Status
+from app.models import Veiculos, Modelos, Marcas, Status, Clientes
 
 class VeiculoForm(ModelForm):
     fk_modelo = forms.ModelChoiceField(queryset=Modelos.objects.filter(fk_status__descricao = 'Ativo'))
+    fk_cliente = forms.ModelChoiceField(queryset=Clientes.objects.filter(fk_status__descricao = 'Ativo'))
     
     class Meta:
         model = Veiculos
