@@ -5,9 +5,11 @@ const Estacionamento = ({}) => {
     // ----
 
     return (
-        <div className="Estacionamento">
-           
-        </div>
+        <>
+        <header>
+            <span>{"Estacionamento"}</span>
+        </header>
+        </>
     );
 };
 

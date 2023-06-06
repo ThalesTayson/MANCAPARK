@@ -5,9 +5,11 @@ const Clientes = ({}) => {
     // ----
 
     return (
-        <div className="Clientes">
-           
-        </div>
+        <>
+        <header>
+            <span>{"Clientes"}</span>
+        </header>
+        </>
     );
 };
 

@@ -5,9 +5,11 @@ const Dashboard = ({}) => {
     // ----
 
     return (
-        <div className="Dashboard">
-           
-        </div>
+        <>
+        <header>
+            <span>{"Dashboard"}</span>
+        </header>
+        </>
     );
 };
 

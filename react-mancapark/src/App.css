@@ -1,0 +1,76 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);
+html, body, html * {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+div.container {
+    position: relative;
+    display: flex;
+}
+header {
+    position: relative;
+    height: 70px;
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.133) 3px 1.6px 3.6px 0px, rgba(0, 0, 0, 0.11) 0px 0.3px 0.9px 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: calc(100vw - 200px);
+    background-color: #FFFFFF;
+}
+header span {
+    margin-left: 50px;
+    font-size: 16pt;
+    font-weight: 500;
+}
+span.title {
+    display: flex;
+    font-size: 22pt;
+    font-weight: 700;
+    width: 100%;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+nav.nav-menu {
+    position: relative;
+    width: 200px;
+    left: 0;
+    height: 100vh;
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.133) 0px 1.6px 3.6px 0px, rgba(0, 0, 0, 0.11) 0px 0.3px 0.9px 0px;
+    background-color: #202123;
+    color:#FFFFFF;
+}
+nav.nav-menu ul li {
+    cursor: pointer;
+    padding: 5px;
+}
+nav.nav-menu ul a {
+    color: #FFFFFF;
+    text-decoration:none;
+}
+main {
+    position: relative;
+    background-color: #f6f6f6;
+}
+.hideItem {
+    display: none;
+}
+.menu-item{
+    display: none;
+}
+.menu-item:checked + label ~ .subItens-menu{
+    display: block;
+}
+nav.nav-menu li {
+    list-style: none;
+}
+.subItens-menu{
+    display: none;
+}
+.subItens-menu-itens{
+    max-width: 150px;
+    overflow-y: auto;
+}
