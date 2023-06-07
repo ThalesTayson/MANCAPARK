@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
-from app.models import Registros, Estacionamento, Veiculos, Status
+from app.models import Registros, Estacionamento, Veiculos, Status, Pagamentos, Precos, Avulsos
+from app.tools import calculaTempo
 
 class EstacionamentoForm(ModelForm):
     fk_veiculo = forms.ModelChoiceField(queryset=Veiculos.objects.filter(fk_status__descricao = 'Ativo'))
@@ -28,10 +29,15 @@ class EstacionamentoForm(ModelForm):
     def save(self):
         data =  super().save(False)
         tp_reg = data.fk_tipoRegistro.descricao
+
+        pag = Pagamentos() if data.fk_veiculo.fk_status == 'Inativo' and tp_reg == 'Saida' else None
+        avulso = Avulsos() if data.fk_veiculo.fk_status == 'Inativo' and tp_reg == 'Saida' else None
         
         status = Status.objects.get(
             descricao = 'Ativo' if tp_reg == 'Entrada' else 'Inativo'
         )
+        
+        data.fk_status = status
         
         try:
             est = Estacionamento.objects.get(fk_veiculo=data.fk_veiculo)
@@ -41,8 +47,30 @@ class EstacionamentoForm(ModelForm):
         
         est.fk_status = status
         
+        if tp_reg == 'Saida':
+            
+            reg_entrada = Registros.objects.get(fk_tipoRegistro__descricao = 'Entrada', fk_status__descricao = 'Ativo')
+            reg_entrada.fk_status = status
+            reg_entrada.save()
+            
+            if pag is not None:
+                avulso.fk_registro_entrada = reg_entrada
+                tempo = calculaTempo(reg_entrada.created_at, data.created_at)
+                preco = Precos.objects.get(
+                    fk_status__descricao = 'Ativo', 
+                    fk_tipo = data.fk_veiculo.fk_modelo.fk_tipo
+                )
+                pag.valor = preco.por_hora * tempo
+                pag.fk_preco.add(preco)
+                pag.save()
+                
         est.save()
         data.save()
+        if avulso is not None:
+            avulso.fk_registro_saida = data
+            avulso.pagamento = pag
+            avulso.save()
+        
         return data
         
     

@@ -1,20 +1,20 @@
 from django import forms
 from django.forms import Form, ModelForm
-from app.models import Clientes, Status, Veiculos, Mensalidades, Pagamentos, Precos, Tipos
+from app.models import Precos
 
-class ClienteForm(ModelForm):
+class PrecoForm(ModelForm):
     class Meta:
-        model = Clientes
-        fields = ['primeiro_nome', 'ultimo_nome', 'email', 'telefone']
-        
+        model = Precos
+        fields = ['fk_tipo', 'por_mensalidade', 'por_hora']
+    
 class StatusClienteForm(Form):
     fk_status = forms.ModelChoiceField(queryset=Status.objects)
     fk_cliente = forms.ModelChoiceField(queryset=Clientes.objects)
-    fk_tipos = forms.ModelChoiceField(queryset=Tipos.objects)
     
     def save(self):
         cliente = self.cleaned_data['fk_cliente']
         cliente.fk_status = self.cleaned_data['fk_status']
+        cliente.save()
         
         if cliente.fk_status.descricao == 'Inativo':
             for veiculo in Veiculos.objects.filter(fk_cliente = cliente):
@@ -22,16 +22,12 @@ class StatusClienteForm(Form):
                 veiculo.save()
         else:
             pag = Pagamentos()
-            precos = Precos.objects.filter(
-                    fk_status__descricao = 'Ativo',
-                    fk_tipo__in = self.cleaned_data['fk_tipos']
+            preco = Precos.objects.get(
+                    fk_status__descricao = 'Ativo'
             )
-            valor = 0
-            for p in precos: valor += p.por_mensalidade
-            valor = valor / len(precos)
-            
-            pag.valor = valor
-            pag.fk_preco.add(precos)
+
+            pag.valor = preco.por_mensalidade
+            pag.fk_preco = preco
             pag.save()
             
             mens = Mensalidades()
@@ -40,6 +36,4 @@ class StatusClienteForm(Form):
             mens.fk_pagamento = pag
             mens.save()
             
-        cliente.save()
-        
         return cliente
