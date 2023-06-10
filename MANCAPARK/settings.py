@@ -84,6 +84,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = 'accounts/auth/login'
 
 STATIC_URL = '/static/'
 

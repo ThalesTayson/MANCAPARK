@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords"
-        content="Gerenciamento,Estacionamento,Sistema,Carros,Veículos,Motos">
+        content="Gerenciamento,Estacionamento,Sistema,Carros,Veículos,Motos,Caminhões, Carretas, automóvel">
     <meta name="description" content="MANCAPARK - Sistema de Gerenciamento de Estacionamento de Veículos">
 
     <title>MANCAPARK - Gerenciamento de Estacionamento de Veiculos</title>
@@ -22,6 +22,24 @@
 </head>
 
 <body>
+    <nav>        
+        <a href="{% url 'createCliente'%}">Cadastro de Cliente</a>
+        
+        <a href="{% url 'createMarca'%}">Cadastro de Marca</a>
+        
+        <a href="{% url 'createModelo'%}">Cadastro de Modelo</a>
+
+        <a href="{% url 'createTipo'%}">Cadastro de Tipo</a>
+
+        <a href="{% url 'createVeiculo'%}">Cadastro de Veiculo</a>
+
+        <a href="{% url 'createPreco'%}">Cadastro de Preço</a>
+
+        <a href="{% url 'createMensalidade'%}">Cadastro de Mensalidade</a>
+        
+        <a href="{% url 'lancarRegistro'%}">lançar Registro</a>
+        
+    </nav>
     {% block main %}
     {% endblock %}
 </body>

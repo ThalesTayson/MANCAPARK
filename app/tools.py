@@ -20,7 +20,7 @@ def formToJson(form):
     return data
 
 def calculaTempo(entrada, saida):
-    tempo = ((saida - entrada).min / 60) # transforma timedelta em horas
+    tempo = ((saida - entrada).seconds / 3600) # transforma timedelta em horas
     if int(tempo) == 0:
         tempo = 1 if (tempo * 60) > 15 and (tempo * 60) < 60 else 0 #Primeiros 15 min não paga
     else:

@@ -25,6 +25,9 @@ class Status ( models.Model ): # Ativo/Inativo
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     
+    def __str__(self):
+        return self.descricao
+    
 class Usuarios ( AbstractUser ):
     # herdará username
     # herdará password
@@ -37,7 +40,7 @@ class Usuarios ( AbstractUser ):
     updated_at = models.DateTimeField(auto_now = True)
     
     def __str__(self) -> str:
-        return self.first_name
+        return self.first_name + ' ' + self.last_name
 
 class Clientes ( models.Model ):
     primeiro_nome = models.CharField(max_length = 50)
@@ -48,12 +51,18 @@ class Clientes ( models.Model ):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     
+    def __str__(self) -> str:
+        return self.primeiro_nome + ' telefone: ' + str(self.telefone)
+    
 class Marcas ( models.Model ):
     descricao = models.CharField(max_length = 50)
     fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
+    def __str__(self) -> str:
+        return self.descricao
+    
 class Tipos ( models.Model ):
     descricao = models.CharField(max_length = 50)
     fk_marca = models.ForeignKey(Marcas, on_delete = models.CASCADE)
@@ -61,12 +70,18 @@ class Tipos ( models.Model ):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
+    def __str__(self) -> str:
+        return self.descricao + ' - ' + self.fk_marca.descricao
+    
 class Modelos ( models.Model ):
     descricao = models.CharField(max_length = 50)
     fk_tipo = models.ForeignKey(Tipos, on_delete = models.CASCADE )
     fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    
+    def __str__(self) -> str:
+        return self.fk_tipo.descricao + ' - ' + self.fk_tipo.fk_marca.descricao + ' - ' + self.descricao
     
 class Veiculos ( models.Model ):
     placa = models.CharField(max_length = 50, unique = True)
@@ -76,10 +91,17 @@ class Veiculos ( models.Model ):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
+    def __str__(self) -> str:
+        return str(self.fk_modelo) + ' - placa: ' + self.placa
+    
+    
 class TiposRegistros ( models.Model ): # Entrada/Saida
     descricao = models.CharField(max_length=15, unique = True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    
+    def __str__(self) -> str:
+        return self.descricao
     
 class Registros ( models.Model ):
     fk_tipoRegistro = models.ForeignKey(TiposRegistros, on_delete = models.CASCADE)

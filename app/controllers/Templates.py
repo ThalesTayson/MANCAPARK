@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from .forms.Auth import formAuthenticate
+from app.forms.Auth import formAuthenticate
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from app.forms.Clientes import ClienteForm
 
-def loginn(req):
+def entrar(req):
     
     form = formAuthenticate()
     
@@ -17,12 +18,12 @@ def loginn(req):
             
     return render(req,'login.html', {"form":form})
 
-@login_required(login_url='/')
-def logout(req):
+@login_required
+def sair(req):
     logout(req)
-    return redirect('loginn')
+    return redirect('login')
 
-@login_required(login_url='')
+@login_required
 def home(req):
     
     return render(req,'index.html')
