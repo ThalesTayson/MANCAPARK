@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from app.models import Clientes, Veiculos, Status, Mensalidades, Pagamentos, Precos, Tipos
 
 class MesalidadeForm(ModelForm):
-    fk_tipos = forms.ModelChoiceField(queryset=Tipos.objects.filter(fk_status__descricao = 'Ativo'))
+    fk_tipos = forms.ModelMultipleChoiceField(queryset=Tipos.objects.filter(fk_status__descricao = 'Ativo'),label="Tipos de Veiculo")
     
     class Meta:
         model = Mensalidades
@@ -12,14 +12,16 @@ class MesalidadeForm(ModelForm):
     def getValor(self):
         precos = Precos.objects.filter(
                 fk_status__descricao = 'Ativo',
-                fk_tipo__in = [self.cleaned_data['fk_tipos']]
+                fk_tipo__in = self.cleaned_data['fk_tipos']
         )
         
         valor = 0
         for p in precos: valor += p.por_mensalidade
-        valor = valor / len(precos)
-        
-        print(precos)
+        if precos.count() > 1:
+            valor = float(valor) * (len(precos) * 0.91) #Acima de 1 tipo na mesma mensalidade 9% de desconto para cada tipo 
+        else:
+            valor = valor
+            
         return precos, valor
     
     def save(self, ):

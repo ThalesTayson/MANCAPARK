@@ -16,13 +16,9 @@ class StatusMarcaForm(ModelForm):
         data = super().save(True)
         
         if data.fk_status.descricao == 'Inativo':
-            for tipo in Tipos.objects.filter(fk_marca = data):
+            for tipo in Modelos.objects.filter(fk_marca = data):
                 tipo.fk_status = self.cleaned_data['fk_status']
                 tipo.save()
-                
-                for modelo in Modelos.objects.filter(fk_tipo = tipo):
-                    modelo.fk_status = self.cleaned_data['fk_status']
-                    modelo.save()
         
         return data
     

@@ -2,11 +2,11 @@ from django import forms
 from django.forms import ModelForm
 from app.models import Registros, Estacionamento, Veiculos, Status, Pagamentos, Precos, Avulsos
 from app.tools import calculaTempo
-from datetime import datetime
+from django.utils import timezone
 
 class EstacionamentoForm(ModelForm):
     
-    fk_veiculo = forms.ModelChoiceField(queryset=Veiculos.objects)
+    fk_veiculo = forms.ModelChoiceField(queryset=Veiculos.objects, label= 'Veiculo')
     
     class Meta:
         model = Registros
@@ -49,7 +49,7 @@ class EstacionamentoForm(ModelForm):
                     fk_tipo = data.fk_veiculo.fk_modelo.fk_tipo
                 )
             
-            tempo = calculaTempo(reg_entrada.created_at, datetime.now(tz=reg_entrada.created_at.tzinfo))
+            tempo = calculaTempo(reg_entrada.created_at, timezone.now())
             
             return preco, reg_entrada, (preco.por_hora * tempo)
         
@@ -58,8 +58,8 @@ class EstacionamentoForm(ModelForm):
         data.fk_usuario = user
         tp_reg = data.fk_tipoRegistro.descricao
 
-        pag = Pagamentos() if data.fk_veiculo.fk_status == 'Inativo' and tp_reg == 'Saida' else None
-        avulso = Avulsos() if data.fk_veiculo.fk_status == 'Inativo' and tp_reg == 'Saida' else None
+        pag = Pagamentos() if data.fk_veiculo.fk_status.descricao == 'Inativo' and tp_reg == 'Saida' else None
+        avulso = Avulsos() if data.fk_veiculo.fk_status.descricao == 'Inativo' and tp_reg == 'Saida' else None
         
         status = Status.objects.get(
             descricao = 'Ativo' if tp_reg == 'Entrada' else 'Inativo'
@@ -77,18 +77,18 @@ class EstacionamentoForm(ModelForm):
         
         if tp_reg == 'Saida':
             preco, reg_entrada, valor = self.getValor()
-            
+            print(valor)
             reg_entrada.fk_status = status
             
             reg_entrada.save()
-            
             if pag is not None:
                 
                 avulso.fk_registro_entrada = reg_entrada
                 
                 pag.valor = valor
-                pag.fk_preco.add(preco)
                 pag.save()
+                pag.fk_preco.add(preco)
+                
                 
         est.save()
         data.save()

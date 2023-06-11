@@ -47,7 +47,7 @@ class Clientes ( models.Model ):
     ultimo_nome = models.CharField(max_length = 50)
     email = models.EmailField(max_length = 70, unique = True)
     telefone = models.BigIntegerField(unique = True)
-    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=2)
+    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=2, verbose_name='Status')
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     
@@ -56,7 +56,7 @@ class Clientes ( models.Model ):
     
 class Marcas ( models.Model ):
     descricao = models.CharField(max_length = 50)
-    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1)
+    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1, verbose_name='Status')
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
@@ -65,34 +65,34 @@ class Marcas ( models.Model ):
     
 class Tipos ( models.Model ):
     descricao = models.CharField(max_length = 50)
-    fk_marca = models.ForeignKey(Marcas, on_delete = models.CASCADE)
-    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1)
+    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1, verbose_name='Status')
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
     def __str__(self) -> str:
-        return self.descricao + ' - ' + self.fk_marca.descricao
+        return self.descricao
     
 class Modelos ( models.Model ):
     descricao = models.CharField(max_length = 50)
-    fk_tipo = models.ForeignKey(Tipos, on_delete = models.CASCADE )
-    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1)
+    fk_tipo = models.ForeignKey(Tipos, verbose_name=u"Tipo de Veiculo", on_delete = models.CASCADE )
+    fk_marca = models.ForeignKey(Marcas, verbose_name=u"Marca", on_delete = models.CASCADE)
+    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1, verbose_name='Status')
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     
     def __str__(self) -> str:
-        return self.fk_tipo.descricao + ' - ' + self.fk_tipo.fk_marca.descricao + ' - ' + self.descricao
+        return self.fk_tipo.descricao + ' - ' + self.fk_marca.descricao + ' - ' + self.descricao
     
 class Veiculos ( models.Model ):
     placa = models.CharField(max_length = 50, unique = True)
-    fk_modelo = models.ForeignKey(Modelos, on_delete = models.CASCADE)
-    fk_cliente = models.ForeignKey(Clientes, null = True, on_delete = models.CASCADE)
-    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=2)
+    fk_modelo = models.ForeignKey(Modelos, verbose_name=u"Modelo de Veiculo", on_delete = models.CASCADE)
+    fk_cliente = models.ForeignKey(Clientes, verbose_name=u"Cliente", null = True, on_delete = models.CASCADE)
+    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=2, verbose_name='Status')
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
     def __str__(self) -> str:
-        return str(self.fk_modelo) + ' - placa: ' + self.placa
+        return self.placa + ' - ' + str(self.fk_modelo)
     
     
 class TiposRegistros ( models.Model ): # Entrada/Saida
@@ -104,24 +104,24 @@ class TiposRegistros ( models.Model ): # Entrada/Saida
         return self.descricao
     
 class Registros ( models.Model ):
-    fk_tipoRegistro = models.ForeignKey(TiposRegistros, on_delete = models.CASCADE)
-    fk_veiculo = models.ForeignKey(Veiculos, on_delete = models.CASCADE)
+    fk_tipoRegistro = models.ForeignKey(TiposRegistros, verbose_name=u"Tipo de Registro", on_delete = models.CASCADE)
+    fk_veiculo = models.ForeignKey(Veiculos, verbose_name=u"Veiculo", on_delete = models.CASCADE)
     fk_usuario = models.ForeignKey(Usuarios, on_delete = models.CASCADE)
-    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=2)
+    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=2, verbose_name='Status')
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
 class Estacionamento ( models.Model ):
-    fk_veiculo = models.ForeignKey(Veiculos, on_delete = models.CASCADE)
-    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1)
+    fk_veiculo = models.ForeignKey(Veiculos, verbose_name=u"Veiculo", on_delete = models.CASCADE)
+    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1, verbose_name='Status')
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
 class Precos ( models.Model ):
-    fk_tipo = models.ForeignKey(Tipos, on_delete = models.CASCADE )
-    por_mensalidade = models.DecimalField(max_digits = 11, decimal_places = 4)
-    por_hora = models.DecimalField(max_digits = 11, decimal_places = 4)
-    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1)
+    fk_tipo = models.ForeignKey(Tipos, verbose_name=u"Tipo de Veiculo", on_delete = models.CASCADE )
+    por_mensalidade = models.DecimalField(max_digits = 11, verbose_name=u"Preço por mensalidade", decimal_places = 4)
+    por_hora = models.DecimalField(max_digits = 11, verbose_name=u"Preço por hora", decimal_places = 4)
+    fk_status = models.ForeignKey(Status, on_delete = models.CASCADE, default=1, verbose_name='Status')
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
@@ -132,12 +132,11 @@ class Pagamentos ( models.Model ):
     updated_at = models.DateTimeField(auto_now = True)
 
 class Mensalidades ( models.Model ):
-    fk_cliente = models.ForeignKey(Clientes, on_delete = models.CASCADE)
+    fk_cliente = models.ForeignKey(Clientes, verbose_name=u"Cliente", on_delete = models.CASCADE)
     fk_pagamento = models.ForeignKey(Pagamentos, on_delete = models.CASCADE)
     fk_tipos = models.ManyToManyField(Tipos)
 
 class Avulsos ( models.Model ):
-    fk_veiculo = models.ForeignKey(Veiculos, on_delete = models.CASCADE)
     fk_registro_entrada = models.ForeignKey(Registros, on_delete = models.CASCADE, related_name= 'fk_registro_entrada')
     fk_registro_saida = models.ForeignKey(Registros, on_delete = models.CASCADE, related_name= 'fk_registro_saida')
     pagamento = models.ForeignKey(Pagamentos, on_delete = models.CASCADE)
