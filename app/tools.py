@@ -5,26 +5,29 @@ def utc_to_local(utc_dt):
     return utc_dt.replace(tzinfo=timezone.utc).astimezone(tz=None)
 
 def formToJson(form):
-    data = {}
+    data = []
     fields = form.fields.keys()
     for field in fields:
         obj_field = form.base_fields.get(field)
-        data.setdefault(field, {})
-        data[field].setdefault('input_type', obj_field.widget.input_type)
-        data[field].setdefault('label', obj_field.label)
-        data[field].setdefault('is_hidden', obj_field.widget.is_hidden)
-        data[field].setdefault('is_required', obj_field.widget.is_required)
-        data[field].setdefault('attrs', obj_field.widget.attrs)
+        d = {"id": field}
         
-        if data[field]['input_type'] == 'select':
-            data[field].setdefault('multiple', obj_field.widget.allow_multiple_selected)
+        d.setdefault('input_type', obj_field.widget.input_type)
+        d.setdefault('label', obj_field.label)
+        d.setdefault('is_hidden', obj_field.widget.is_hidden)
+        d.setdefault('is_required', obj_field.widget.is_required)
+        d.setdefault('attrs', obj_field.widget.attrs)
+        
+        if d['input_type'] == 'select':
+            d.setdefault('multiple', obj_field.widget.allow_multiple_selected)
             
             choices = []
             for choice in obj_field.choices.queryset:
                 choices.append({'value': choice.pk, 'text': str(choice) })
                 
-            data[field].setdefault('options', choices)
-            
+            d.setdefault('options', choices)
+        
+        data.append(d)
+        
     return data
 
 def calculaTempo(entrada, saida):

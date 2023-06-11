@@ -1,20 +1,21 @@
-async function submit(params, Method, url="") {
+async function submit(Method,params={}, body=null, url="") {
     const csrftoken = getCookie('csrftoken');
     
-    let body = null;
     if (Method === 'GET') {
         if (Object.keys(params).length === 0){
             return fetch(url);
         }
         url += '?' + new URLSearchParams(params);
     } else if (Method === 'POST') {
-        body = new FormData();
-        let keys = Object.keys(params);
-        for (let k of keys) {
-            if ( params[k] ) {
-                body.append(k, params[k]);
-            }
-        };
+        if (body === null){
+            body = new FormData();
+            let keys = Object.keys(params);
+            for (let k of keys) {
+                if ( params[k] ) {
+                    body.append(k, params[k]);
+                }
+            };
+        }
     }
     const request = {
         method: Method,

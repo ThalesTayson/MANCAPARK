@@ -1,6 +1,6 @@
 import React from "react";
 
-const ItensSubItens = ({objts}) => {
+const Tabela = ({objts}) => {
 
     // ----
     const itens = Object.keys(objts);
@@ -21,4 +21,4 @@ const ItensSubItens = ({objts}) => {
     );
 };
 
-export default Estacionamento;
+export default Tabela;
