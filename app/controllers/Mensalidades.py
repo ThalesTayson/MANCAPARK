@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.utils import timezone
 
-from app.models import Clientes
+from app.models import Clientes, Mensalidades
 from app.forms.Mensalidades import MesalidadeForm, InativarClienteForm
+from app.tools import utc_to_local
 
 @login_required
 def create(req):
@@ -50,3 +52,32 @@ def cliente_inativar(req, id):
         "var_btn_value" : var_btn_value,
         "title": title
     })
+
+@login_required
+def lista(req):
+    now = timezone.now().replace(hour=0,minute=0,second=0,microsecond=0)
+    limitPagamento = now - timezone.timedelta(days=31)
+    query = Mensalidades.objects.filter(
+        fk_cliente__fk_status__descricao = 'Ativo',
+        fk_pagamento__created_at__gte = limitPagamento
+    )
+    data = [["CLIENTE", "DATA DO PAGAMENTO", "TIPOS INCLUSO", "VALOR PAGO", "..."]]
+    for row in query:
+        cliente = str(row.fk_cliente)
+        data_do_pagamento = utc_to_local(row.fk_pagamento.created_at).strftime("%d/%m/%Y")
+        tipos_incluso = ""
+        for tp in row.fk_tipos.filter():
+            if tipos_incluso != "":
+                tipos_incluso += tp.descricao
+            else:
+                tipos_incluso += ", {}".format(tp.descricao)
+    
+        valor_pago = str("R$ %.2f" % float(row.fk_pagamento.valor)).replace('.', ',')
+        
+        menu = [
+            {"value": "INATIVAR", 'link': f"mensalidades/cliente/{row.fk_cliente.pk}/inativar"},
+        ]
+        
+        data.append(cliente, data_do_pagamento, tipos_incluso, valor_pago, menu)
+    
+    return JsonResponse(data={"data":data})

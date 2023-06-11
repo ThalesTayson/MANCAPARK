@@ -4,6 +4,7 @@ from django.http import JsonResponse
 
 from app.models import Veiculos
 from app.forms.Veiculos import VeiculoForm, StatusVeiculoForm
+from app.tools import utc_to_local
 
 @login_required
 def create(req):
@@ -73,3 +74,28 @@ def status_update(req, id):
         "var_btn_value" : var_btn_value,
         "title": title
     })
+
+@login_required
+def lista(req):
+    query = Veiculos.objects.filter()
+    data = [["ID", "PLACA", "CLIENTE", "TIPO DE VEICULO", "MARCA", "MODELO", "DATA DE CADASTRO", "ULTIMA ATUALIZAÇÃO", "STATUS", "..."]]
+    for row in query:
+        id = str(row.pk)
+        placa = row.placa
+        try: cliente = row.fk_cliente.primeiro_nome + ' ' + row.fk_cliente.ultimo_nome
+        except: cliente = "---"
+        tipo_de_veiculo = row.fk_modelo.fk_tipo.descricao
+        marca = row.fk_modelo.fk_marca.descricao
+        modelo = row.fk_modelo.descricao
+        data_de_cadastro = utc_to_local(row.created_at).strftime("%d/%m/%Y %H:%M:%S")
+        ultima_atualizacao = utc_to_local(row.updated_at).strftime("%d/%m/%Y %H:%M:%S")
+        status = row.fk_status.descricao
+        
+        menu = [
+            {"value": "ATUALIZAR CADASTRO", 'link': f"veiculos/{id}/update"},
+            {"value": "ATUALIZAR STATUS", 'link': f"veiculos/{id}/status/update"},
+        ]
+        
+        data.append(id, placa, cliente, tipo_de_veiculo, marca, modelo, data_de_cadastro, ultima_atualizacao, status, menu)
+    
+    return JsonResponse(data={"data":data})

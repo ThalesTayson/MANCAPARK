@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from app.tools import maskTelefone
 
 """
 TABELAS 
@@ -52,7 +53,7 @@ class Clientes ( models.Model ):
     updated_at = models.DateTimeField(auto_now = True)
     
     def __str__(self) -> str:
-        return self.primeiro_nome + ' telefone: ' + str(self.telefone)
+        return self.primeiro_nome + ' telefone: ' + maskTelefone(self.telefone)
     
 class Marcas ( models.Model ):
     descricao = models.CharField(max_length = 50)

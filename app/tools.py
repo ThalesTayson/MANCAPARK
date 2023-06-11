@@ -1,3 +1,8 @@
+import re
+from datetime import timezone
+
+def utc_to_local(utc_dt):
+    return utc_dt.replace(tzinfo=timezone.utc).astimezone(tz=None)
 
 def formToJson(form):
     data = {}
@@ -30,3 +35,13 @@ def calculaTempo(entrada, saida):
         tempo = int(tempo) + 1 if tempo > int(tempo) else int(tempo) #Após 1h apartir dos 1s a mais paga a próxima hora completa.
     
     return tempo
+
+def calculaTempo_em_hour_e_min(entrada, saida):
+    min = int((saida - entrada).seconds / 60)
+    hour = int(min / 60)
+    min = min - (hour * 60)
+    
+    return "{}h e {}m".format(hour, min)
+
+def maskTelefone(telefone):
+    return re.sub(r'(\d{2})(\d{1})(\d{8})', r'(\1) \2 \3', str(telefone))

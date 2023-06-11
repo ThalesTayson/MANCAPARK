@@ -4,6 +4,7 @@ from django.http import JsonResponse
 
 from app.models import Clientes
 from app.forms.Clientes import ClienteForm
+from app.tools import utc_to_local, maskTelefone
 
 @login_required
 def create(req):
@@ -50,3 +51,23 @@ def update(req, id):
         "var_btn_value" : var_btn_value,
         "title": title
     })
+
+@login_required
+def lista(req):
+    query = Clientes.objects.filter()
+    data = [["ID", "NOME COMPLETO", "EMAIL", "TELEFONE", "DATA DE CADASTRO", "ULTIMA ATUALIZAÇÃO", "..."]]
+    for row in query:
+        id = str(row.pk)
+        nome_completo = "{} {}".format(row.primeiro_nome, row.ultimo_nome)
+        email = row.email
+        telefone = maskTelefone(row.telefone)
+        data_de_cadastro = utc_to_local(row.created_at).strftime("%d/%m/%Y %H:%M:%S")
+        ultima_atualizacao = utc_to_local(row.updated_at).strftime("%d/%m/%Y %H:%M:%S")
+        
+        menu = [
+            {"value": "ATUALIZAR CADASTRO", 'link': f"clientes/{id}/update"}
+        ]
+        
+        data.append(id, nome_completo, email, telefone, data_de_cadastro, ultima_atualizacao, menu)
+    
+    return JsonResponse(data={"data":data})
