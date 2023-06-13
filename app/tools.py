@@ -17,12 +17,16 @@ def formToJson(form):
         d.setdefault('is_required', obj_field.widget.is_required)
         d.setdefault('attrs', obj_field.widget.attrs)
         
+        try:
+            d.setdefault('value', form.instance.__getattribute__(field))
+        except: d.setdefault('value', '')
+        
         if d['input_type'] == 'select':
             d.setdefault('multiple', obj_field.widget.allow_multiple_selected)
             
-            choices = []
+            choices = {}
             for choice in obj_field.choices.queryset:
-                choices.append({'value': choice.pk, 'text': str(choice) })
+                choices.update({ choice.pk, str(choice) })
                 
             d.setdefault('options', choices)
         
