@@ -8,6 +8,7 @@ import { submit } from "../util";
 
 const Form = ({ link }) => {
 
+    const [values, setValues] = useState({});
     const [fields, setFields] = useState([]);
     const [title, setTitle] = useState(null);
     const [btn_var, setBtn_var] = useState(null);
@@ -24,8 +25,19 @@ const Form = ({ link }) => {
                 setFields(data.form);
                 setErrors(data.errors);
                 setMessage(data.message);
+                let _values = values;
+                for (let field of data.form){
+                    _values[field] = field.value;
+                }
+                setValues(_values);
             });
     }
+
+    const updateValue = (field, value) => {
+        let _values = values;
+        _values[field] = value;
+        setValues(_values);
+    };
 
     const get_form = () => {
         submit("GET", url=link)
@@ -35,6 +47,11 @@ const Form = ({ link }) => {
                 setFields(data.form);
                 setTitle(data.title);
                 setBtn_var(data.var_btn_value);
+                let _values = values;
+                for (let field of data.form){
+                    _values[field] = field.value;
+                }
+                setValues(_values);
             });
     }
 
@@ -51,26 +68,25 @@ const Form = ({ link }) => {
                     <div className="fields">
                         {fields.map((field, index)=>{
                             if (field.input_type === 'select'){
-                                return <Select attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} value={field.value}  
-                                            choices={field.options} multiple={field.multiple}/>
+                                return <Select attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
+                                    values={values[field.id]} updateValue={updateValue} choices={field.options} multiple={field.multiple}/>
                             } else if (field.input_type === 'checkbox'){
                                 return <Checkbox attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
-                                    value={field.value} />
+                                    values={values[field.id]} updateValue={updateValue} />
                             } else if (field.input_type === 'datalist'){
                                 return <Datalist attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
-                                    value={field.value} choices={field.options}/>
+                                    values={values[field.id]} updateValue={updateValue} choices={field.options}/>
                             } else if (field.input_type === 'textArea'){
                                 return <></>
                             } else {
                                 return <Input attrs={field.attrs} focus={(index === 0)} required={field.is_required} type={field.input_type} id={field.id.toString()} label_tag={field.label} 
-                                        value={field.value} />
+                                        values={values[field.id]} updateValue={updateValue} />
                             }
                         })}
-                        {fields.map((value, index)=>{
-                            const field = props.fields[value.toString()];
+                        {fields.map((field, index)=>{
                             if (field.input_type === 'textArea'){
                                 return <TextArea attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
-                                    value={field.value} />
+                                    values={values[field.id]} updateValue={updateValue} />
                             }
                         })}
                         

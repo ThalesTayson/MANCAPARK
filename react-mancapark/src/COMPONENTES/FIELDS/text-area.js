@@ -1,31 +1,32 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-class TextArea extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: this.props.value
-    };
+const TextArea = ({ attrs, required, focus, value, updateValue, id, label_tag }) => {
+
+  const ref = useRef(null);
+  
+  const onInputValue = (e) => {
+    updateValue(id, e.target.value);
   }
-  onInputValue = (e) => {
-    this.setState({value: e.target.value});
-  }
-  style = () =>{
-    let style = {};
-    if (this.props.width){
-      style = {width: this.props.width + 'px'};
+
+  useEffect(()=>{
+    if (ref !== null){
+      let keysAttr = Object.keys(attrs);
+      for (let key of keysAttr){
+        if (!ref.current.getAttribute(key)){
+          ref.current.setAttribute(key, attrs[key]);
+        }
+      }
     }
-    return style
-  }
-  render() {
-    return (
-        <div className="Field" style={this.style()}>
-            <textarea autoFocus={this.props.focus} autoComplete="false" onInput={this.onInputValue} 
-              required={this.props.required} id={this.props.name} rows={3} cols={30}>{this.state.value}</textarea>
-            <label htmlFor={this.props.name}>{this.props.label_tag}</label>
-        </div>
-    );
-  }
-}
+  }, [ref]);
+
+  return (
+    <div className="Field">
+      <textarea ref={ref} autoFocus={focus} autoComplete={false} onInput={onInputValue} 
+        required={required} id={id} rows={3} cols={30}>{value}</textarea>
+      <label htmlFor={id}>{label_tag}</label>
+    </div>
+  );
+
+};
 
 export default TextArea;

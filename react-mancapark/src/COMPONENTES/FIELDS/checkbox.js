@@ -1,16 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-const Checkbox = ({ attrs, required, focus, value, id, label_tag }) => {
+const Checkbox = ({ attrs, focus, value, id, label_tag, updateValue }) => {
 
-  const [s_value, setValue] = useState(value);
+  const ref = useRef(null);
   
   const onClickCheck = (e) => {
-    setValue((s_value)? false: true);
+    updateValue(id, (value)? false: true);
   }
+
+  useEffect(()=>{
+    if (ref !== null){
+      let keysAttr = Object.keys(attrs);
+      for (let key of keysAttr){
+        if (!ref.current.getAttribute(key)){
+          ref.current.setAttribute(key, attrs[key]);
+        }
+      }
+    }
+  }, [ref]);
 
   return (
     <div className="Field-check">
-        <input autoFocus={focus} type="checkbox" onClick={onClickCheck} id={id} checked={s_value} />
+        <input ref={ref} autoFocus={focus} type="checkbox" onClick={onClickCheck} id={id} checked={value} />
         <label htmlFor={id} >{label_tag}</label>
     </div>
   );

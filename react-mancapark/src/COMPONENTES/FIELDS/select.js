@@ -1,21 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-const Select = ({ attrs, required, focus, value, id, label_tag, choices }) => {
+const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, choices }) => {
 
-  const [s_value, setValue] = useState(value);
-  
+  const ref = useRef(null);
+
+  const keys_choices = Object.keys(choices);
+
   const onChangeValue = (e) => {
-    setValue(e.target.value);
+    updateValue(id, e.target.value);
   }
+
+  useEffect(()=>{
+    if (ref !== null){
+      let keysAttr = Object.keys(attrs);
+      for (let key of keysAttr){
+        if (!ref.current.getAttribute(key)){
+          ref.current.setAttribute(key, attrs[key]);
+        }
+      }
+    }
+  }, [ref]);
 
   return (
     <div className="Field" >
-      <select required={required} autoFocus={focus} onChange={onChangeValue} id={id}>
-          {choices.map((row)=> {
-            if (s_value === row.value) {
-              return <option selected value={row.value}>{row.text}</option>
+      <select ref={ref} required={required} autoFocus={focus} onChange={onChangeValue} id={id}>
+          {keys_choices.map((key)=> {
+            if (value === key) {
+              return <option selected value={key}>{choices[key]}</option>
             } else {
-              return <option value={row.value}>{row.text}</option>
+              return <option value={key}>{choices[key]}</option>
             }
           })}
       </select>
