@@ -1,4 +1,5 @@
-async function submit(Method,params={}, body=null, url="") {
+
+const submit = async ({Method, params={}, body=null, url=""}) =>{
     const csrftoken = getCookie('csrftoken');
     
     if (Method === 'GET') {

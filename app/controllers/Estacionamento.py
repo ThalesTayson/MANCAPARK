@@ -53,6 +53,6 @@ def lista(req):
             tempoP= calculaTempo(reg_entrada.created_at, timezone.now())
             valor = float(preco.por_hora * tempoP)
             valor = str("R$ %.2f" % float(valor)).replace('.', ',')
-        data.append(data_hora_da_entrada, veiculo, cliente, tempo, valor)
+        data.append([data_hora_da_entrada, veiculo, cliente, tempo, valor])
     
     return JsonResponse(data={"data":data})

@@ -22,17 +22,6 @@ const filter = (value, itens) =>{
         }
     }
 }
-window.addEventListener("load",() =>{
-    const subItens = document.getElementsByClassName("subItens-menu");
-
-    for (const subItem of subItens){
-        const input = subItem.getElementsByClassName('search-itens')[0];
-        const itens = subItem.getElementsByClassName("subItens-menu-itens")[0].children;
-        input.addEventListener("input",() => {
-            filter(input.value,itens);
-        })
-    }
-})
 
 const App = () => {
     
@@ -49,7 +38,7 @@ const App = () => {
                     <ul>
                         <li>
                             <input class="menu-item" type="checkbox" id="item-home"/>
-                            <label for="item-home"><Link to='/'>{"Home"}</Link></label>
+                            <label for="item-home"><Link to=''>{"Home"}</Link></label>
                         </li>
                         <li>
                             <input class="menu-item" type="checkbox" id="item-mensalidades"/>
@@ -86,7 +75,7 @@ const App = () => {
                 </nav>
                 <main>
                     <Routes>
-                        <Route exact path='/' element={<Estacionamento 
+                        <Route exact path='' element={<Estacionamento 
                             /> } />
                         <Route path='/mensalidades' element={<Mensalidades
                                 />} />

@@ -126,3 +126,23 @@ div.container-table {
     margin-left: 80px;
     margin-top: 20px;
 }
+div.menu-superior{
+    position: relative;
+    margin-left: 80px;
+    margin-top: 20px;
+}
+div.menu-superior input[type=button]{
+    padding: 3pt 5pt;
+    margin-right: 10pt;
+    border-radius: 5pt;
+    border: 0;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.133) -3px 2px 4.6px 0px, rgba(0, 0, 0, 0.11) 2px 2px 1px 1px;  
+}
+div.menu-superior input[type=button]:hover,
+div.menu-superior input[type=button]:focus{
+    transform: scale(1.03);
+    outline: none;
+    box-shadow: rgba(0, 0, 0, 0.133) -3px 2px 4.6px 0px, rgba(0, 0, 0, 0.11) 3px 3px 2px 2px;
+    cursor: pointer;
+}

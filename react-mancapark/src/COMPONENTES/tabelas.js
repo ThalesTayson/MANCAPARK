@@ -28,18 +28,17 @@ const Menu = ({data, call_function}) =>{
 const Tabela = ({ data , call_function }) => {
 
     const titles = data[0];
-    console.log(data);
 
     return (<>
         <div className="container-table">
             <table>
                 <thead>
                     <tr>
-                        {titles.map(value => <th>{value}</th>)}
+                        {(titles)? titles.map(value => <th>{value}</th>) : <></>}
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(( row, index ) => {
+                    {(data.length > 0 )? data.map(( row, index ) => {
                         if (index == 0) return <></>
                         return <tr>
                             {row.map(value => {
@@ -50,7 +49,7 @@ const Tabela = ({ data , call_function }) => {
                             })}
                         </tr>
                     }
-                    )}
+                    ) : <></>}
                 </tbody>
             </table>
         </div>
