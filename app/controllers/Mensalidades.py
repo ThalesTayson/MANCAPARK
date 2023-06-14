@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from app.models import Clientes, Mensalidades
 from app.forms.Mensalidades import MesalidadeForm, InativarClienteForm
-from app.tools import utc_to_local
+from app.tools import utc_to_local, formToJson
 
 @login_required
 def create(req):
@@ -15,20 +15,24 @@ def create(req):
     var_btn_value = "CADASTRAR"
     
     if ( req.POST ):
+        print(req.POST)
         form = MesalidadeForm(req.POST, req.FILES)
         if form.is_valid():
             form.save()
             form = MesalidadeForm()
-            message = "Pagamento cadastrado com sucesso!"
+            message = {"status": "info", "msg": "Pagamento cadastrado com sucesso!"}
         else:
-            message = "Verifique os erros!"
-            
-    return render(req,'form.html', {
-        "form": form, 
+            try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
+            except: message = {"status": "error", "msg": "Verifique os campos!"}
+    
+    data = {
+        "form": formToJson(form),
         "message": message, 
         "var_btn_value" : var_btn_value,
         "title": title
-    })
+    }
+
+    return JsonResponse(data=data)
 
 @login_required
 def cliente_inativar(req, id):
@@ -42,16 +46,19 @@ def cliente_inativar(req, id):
         form = InativarClienteForm(req.POST, req.FILES, instance = model)
         if form.is_valid():
             form.save()
-            message = "Cliente Inativado com sucesso!"
+            message = {"status": "info", "msg": "Cliente Inativado com sucesso!"}
         else:
-            message = "Verifique os erros!"
-            
-    return render(req,'form.html', {
-        "form": form, 
+            try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
+            except: message = {"status": "error", "msg": "Verifique os campos!"}
+    
+    data = {
+        "form": formToJson(form),
         "message": message, 
         "var_btn_value" : var_btn_value,
         "title": title
-    })
+    }
+
+    return JsonResponse(data=data)
 
 @login_required
 def lista(req):
@@ -66,6 +73,7 @@ def lista(req):
         cliente = str(row.fk_cliente)
         data_do_pagamento = utc_to_local(row.fk_pagamento.created_at).strftime("%d/%m/%Y")
         tipos_incluso = ""
+        print(row.fk_tipos.filter())
         for tp in row.fk_tipos.filter():
             if tipos_incluso != "":
                 tipos_incluso += tp.descricao
@@ -78,6 +86,6 @@ def lista(req):
             {"value": "INATIVAR", 'link': f"mensalidades/cliente/{row.fk_cliente.pk}/inativar"},
         ]
         
-        data.append(cliente, data_do_pagamento, tipos_incluso, valor_pago, menu)
+        data.append([cliente, data_do_pagamento, tipos_incluso, valor_pago, menu])
     
     return JsonResponse(data={"data":data})

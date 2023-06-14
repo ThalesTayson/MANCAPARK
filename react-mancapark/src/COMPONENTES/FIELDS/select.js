@@ -1,13 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
+import SVG_Exclamation from '../../SVG/exclamation.svg';
 
-const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, choices }) => {
+const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, choices, multiple, error}) => {
 
   const ref = useRef(null);
 
   const keys_choices = Object.keys(choices);
 
   const onChangeValue = (e) => {
-    updateValue(id, e.target.value);
+    if (!multiple){
+      updateValue(id, e.target.value);
+    } else {
+      const options = e.target.selectedOptions;
+      const values = Array.from(options).map(({ value }) => value);
+      updateValue(id, values);
+    }
   }
 
   useEffect(()=>{
@@ -23,16 +30,18 @@ const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, cho
 
   return (
     <div className="Field" >
-      <select ref={ref} required={required} autoFocus={focus} onChange={onChangeValue} id={id}>
+      <select ref={ref} multiple={multiple} required={required} autoFocus={focus} onChange={onChangeValue} id={id}>
+          {(value === "")? <option selected value={""}>{"------"}</option> : <option value={""}>{"------"}</option>}
           {keys_choices.map((key)=> {
             if (value === key) {
-              return <option selected value={key}>{choices[key]}</option>
+              return <option selected value={value}>{choices[key]}</option>
             } else {
               return <option value={key}>{choices[key]}</option>
             }
           })}
       </select>
       <label htmlFor={id}>{label_tag}</label>
+      {(error === "")? <></> : <span className="icon_error" title={error}><SVG_Exclamation /></span>}
     </div>
   );
 

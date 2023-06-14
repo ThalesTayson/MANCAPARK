@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
+import SVG_Exclamation from '../../SVG/exclamation.svg';
 
-const Input = ({ type, attrs, required, focus, values, updateValue, id, label_tag }) => {
+const Input = ({ type, attrs, required, focus, value, updateValue, id, label_tag, error }) => {
 
   const ref = useRef(null);
-  
+
   const onInputValue = (e) => {
     updateValue(id, e.target.value);
   }
@@ -24,6 +25,7 @@ const Input = ({ type, attrs, required, focus, values, updateValue, id, label_ta
       <input ref={ref} autoFocus={focus} type={type} autoComplete={false} onInput={onInputValue} 
       required={required} id={id} value={value} />
       <label htmlFor={id}>{label_tag}</label>
+      {(error === "")? <></> : <span className="icon_error" title={error}><SVG_Exclamation /></span>}
     </div>
   );
 

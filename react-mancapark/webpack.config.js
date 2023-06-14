@@ -18,6 +18,10 @@ module.exports = {
         test: /\.css$/, //checks for .css files
         use: ["style-loader", "css-loader"],
       },
+      {
+        test: /\.svg$/, //checks for .css files
+        use: ['@svgr/webpack'],
+      },
     ],
   },
   

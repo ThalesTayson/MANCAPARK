@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SVG_Icon_three_dots from '../SVG/icon-three-dots.svg';
 
 const Menu = ({data, call_function}) =>{
     
@@ -54,9 +55,7 @@ const Tabela = ({ data , call_function }) => {
             </table>
         </div>
         <div style={{display: "none"}}>
-            <svg id={"icon-three-dots"} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-            </svg>
+            <SVG_Icon_three_dots id={"icon-three-dots"} />
         </div>
 
     </>);

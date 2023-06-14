@@ -1,19 +1,25 @@
 
-const submit = async ({Method, params={}, body=null, url=""}) =>{
+const submit = async ({Method, params={}, body=null, link=""}) =>{
     const csrftoken = getCookie('csrftoken');
     
     if (Method === 'GET') {
         if (Object.keys(params).length === 0){
-            return fetch(url);
+            return fetch(link);
         }
-        url += '?' + new URLSearchParams(params);
+        link += '?' + new URLSearchParams(params);
     } else if (Method === 'POST') {
         if (body === null){
             body = new FormData();
             let keys = Object.keys(params);
             for (let k of keys) {
                 if ( params[k] ) {
-                    body.append(k, params[k]);
+                    if (typeof params[k] === 'object'){
+                        for (let i in params[k]){
+                            body.append(k, params[k][i]);
+                        }
+                    } else {
+                        body.append(k, params[k]);
+                    }
                 }
             };
         }
@@ -25,7 +31,7 @@ const submit = async ({Method, params={}, body=null, url=""}) =>{
     }
     if (body) request['body'] = body;
 
-    return fetch(url, request);
+    return fetch(link, request);
 }
 
 function getCookie(name) {

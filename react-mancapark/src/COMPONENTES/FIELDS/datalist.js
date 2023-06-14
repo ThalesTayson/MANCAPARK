@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
+import SVG_Exclamation from '../../SVG/exclamation.svg';
 
-const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, choices }) => {
+const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, choices, error }) => {
 
   const ref = useRef(null);
 
@@ -35,6 +36,7 @@ const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, c
           {keys_choices.map((key)=> {return <option id={"option_datalist_" + choices[key]} _value={key} value={choices[key]}/>})}
         </datalist>
         <label htmlFor={id}>{label_tag}</label>
+        {(error === "")? <></> : <span className="icon_error" title={error}><SVG_Exclamation /></span>}
     </div>
   );
 

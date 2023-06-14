@@ -3,94 +3,6 @@ import Tabela from "../COMPONENTES/tabelas";
 import Form from "../COMPONENTES/forms";
 import { submit } from "../util";
 
-const tableExample= [
-    ["DATA/HORA DA ENTRADA","VEICULO", "CLIENTE", "TEMPO (h)", "VALOR", "..."],
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-
-    ["12/06/2023 17:57","nrq-0000 asdasd sadasd", "Thales Vargas", "1h 30m", "R$ 15,00", [
-        {"value": "ATUALIZAR CADASTRO", 'link': "marcas/{id}/update"},
-        {"value": "ATUALIZAR STATUS", 'link': "marcas/{id}/status/update"},
-    ]],
-]
-
 const Estacionamento = ({}) => {
 
     const [data, setData] = useState([]);
@@ -99,14 +11,17 @@ const Estacionamento = ({}) => {
 
     const get_tabela = () => {
         let Method = "GET";
-        let url = "http://localhost:8000/estacionamento/lista";
-        submit({Method, url})
+        let link = "/estacionamento/lista";
+        submit({Method, link})
             .then((resp) => resp.json())
             .then((resp) => {
                 let _data = resp;
-                console.log(_data);
                 setData(_data.data);
             });
+    }
+
+    const messages = ({status='info', msg}) => {
+        alert(status + ' ' + msg);
     }
 
     const closeForm = () => {
@@ -115,9 +30,8 @@ const Estacionamento = ({}) => {
     };
 
     const req_form = ( link ) => {
-        alert(link);
-        //setFundo(<div onClick={closeForm} className="fundoVidro" />)
-        //setForm(<Form link={link} />);
+        setFundo(<div onClick={closeForm} className="fundoVidro" />)
+        setForm(<Form link={link} messages={messages} />);
     };
 
     useEffect(()=>{
@@ -132,10 +46,12 @@ const Estacionamento = ({}) => {
             <span>{"Estacionamento"}</span>
         </header>
         <div className="menu-superior">
-            <input type="button" value={"ADICIONAR ENTRADA"}/>
-            <input type="button" value={"ADICIONAR SAIDA"}/>
+            <input type="button" value={"ADICIONAR ENTRADA"} onClick={() => req_form("/estacionamento/lancar-entrada")}/>
+            <input type="button" value={"ADICIONAR SAIDA"} onClick={() => req_form("/estacionamento/lancar-saida")}/>
         </div>
         <Tabela data={data} call_function={req_form} />
+        {fundo}
+        {form}
         </>
     );
 };

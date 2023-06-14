@@ -7,8 +7,10 @@ def utc_to_local(utc_dt):
 def formToJson(form):
     data = []
     fields = form.fields.keys()
+    errors = form.errors
+    
     for field in fields:
-        obj_field = form.base_fields.get(field)
+        obj_field = form.fields.get(field)
         d = {"id": field}
         
         d.setdefault('input_type', obj_field.widget.input_type)
@@ -18,15 +20,19 @@ def formToJson(form):
         d.setdefault('attrs', obj_field.widget.attrs)
         
         try:
-            d.setdefault('value', form.instance.__getattribute__(field))
+            d.setdefault('value', str(form.instance.__getattribute__(field)))
         except: d.setdefault('value', '')
         
+        try:
+            d.setdefault('error', str(errors.get(field).as_text()))
+        except: d.setdefault('error', "")
+        
         if d['input_type'] == 'select':
-            d.setdefault('multiple', obj_field.widget.allow_multiple_selected)
+            d.setdefault('is_multiple', obj_field.widget.allow_multiple_selected)
             
             choices = {}
-            for choice in obj_field.choices.queryset:
-                choices.update({ choice.pk, str(choice) })
+            for choice in obj_field.queryset:
+                choices.setdefault(choice.pk, str(choice))
                 
             d.setdefault('options', choices)
         

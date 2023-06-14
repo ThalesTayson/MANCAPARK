@@ -4,32 +4,61 @@ from django.http import JsonResponse
 from django.utils import timezone
 
 from app.models import Estacionamento, Registros, Precos
-from app.forms.Estacionamento import EstacionamentoForm
-from app.tools import calculaTempo_em_hour_e_min, calculaTempo, utc_to_local
+from app.forms.Estacionamento import EntradaForm, SaidaForm
+from app.tools import calculaTempo_em_hour_e_min, calculaTempo, utc_to_local, formToJson
 
 @login_required
-def update(req):
-    form = EstacionamentoForm()
-    title = "Veiculos no Estacionamento"
-    message = None
+def entrada(req):
+    form = EntradaForm()
+    title = "Registrar Entrada"
+    message = {}
     var_btn_value = "REGISTRAR"
     
     if ( req.POST ):
-        form = EstacionamentoForm(req.POST, req.FILES)
+        form = EntradaForm(req.POST, req.FILES)
         if form.is_valid():
             form.save(req.user)
-            form = EstacionamentoForm()
-            message = "Movimentação registrada com sucesso!"
+            form = EntradaForm()
+            message = {"status": "info", "msg": "Entrada registrada com sucesso!"}
         else:
-            message = "Verifique os erros!"
-            
-    return render(req,'form.html', {
-        "form": form, 
+            try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
+            except: message = {"status": "error", "msg": "Verifique os campos!"}
+    
+    data = {
+        "form": formToJson(form),
         "message": message, 
         "var_btn_value" : var_btn_value,
         "title": title
-    })
+    }
 
+    return JsonResponse(data=data)
+
+@login_required
+def saida(req):
+    form = SaidaForm()
+    title = "Registrar Saida"
+    message = {}
+    var_btn_value = "REGISTRAR"
+    
+    if ( req.POST ):
+        form = SaidaForm(req.POST, req.FILES)
+        if form.is_valid():
+            form.save(req.user)
+            form = SaidaForm()
+            message = {"status": "info", "msg": "Saida registrada com sucesso!"}
+        else:
+            try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
+            except: message = {"status": "error", "msg": "Verifique os campos!"}
+
+    data = {
+        "form": formToJson(form),
+        "message": message, 
+        "var_btn_value" : var_btn_value,
+        "title": title
+    }
+    
+    return JsonResponse(data=data)
+    
 @login_required
 def lista(req):
     query = Estacionamento.objects.filter( fk_status__descricao = 'Ativo')

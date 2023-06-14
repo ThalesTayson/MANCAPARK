@@ -6,25 +6,36 @@ import TextArea from './FIELDS/text-area';
 import Datalist from "./FIELDS/datalist";
 import { submit } from "../util";
 
-const Form = ({ link }) => {
+const Form = ({ link, messages }) => {
 
+    const [hasForm, setHasform] = useState(false);
     const [values, setValues] = useState({});
     const [fields, setFields] = useState([]);
     const [title, setTitle] = useState(null);
     const [btn_var, setBtn_var] = useState(null);
-    const [errors, setErrors] = useState({});
-    const [message, setMessage] = useState(null);
 
     const submit_form = (e) => {
         e.preventDefault();
-        const form = new FormData(e.target);
-        submit("POST", body=form, url=link)
+        let Method = "POST";
+        let params = values;
+        //for (const val of Object.keys(values)){
+        //    if (typeof values[val] === 'object'){
+        //        body.append(val, values[val]);
+        //        for (let i in values[val]){
+        //            params[`${val}[${i}]`] = values[val][i];
+        //        }
+        //    } else {
+        //        params[val] = values[val];
+        //    }
+        //}
+        submit({Method, params, link})
             .then((resp) => resp.json())
             .then((resp) => {
-                data = resp;
+                let data = resp;
+                if (Object.keys(data).includes('form')) setHasform(true);
                 setFields(data.form);
-                setErrors(data.errors);
-                setMessage(data.message);
+                let { status , msg } = data.message
+                messages({status ,msg});
                 let _values = values;
                 for (let field of data.form){
                     _values[field] = field.value;
@@ -40,10 +51,11 @@ const Form = ({ link }) => {
     };
 
     const get_form = () => {
-        submit("GET", url=link)
+        let Method = "GET";
+        submit({Method, link})
             .then((resp) => resp.json())
             .then((resp) => {
-                data = resp;
+                let data = resp;
                 setFields(data.form);
                 setTitle(data.title);
                 setBtn_var(data.var_btn_value);
@@ -56,37 +68,37 @@ const Form = ({ link }) => {
     }
 
     useEffect(()=>{
-        if (fields.length === 0){
+        if (!hasForm){
             get_form();
         }
-    }, [fields]);
+    }, [hasForm]);
 
     return (
-        <form onSubmit={submit_form}>
+        <form className="form-generic" onSubmit={submit_form}>
                 <fieldset>
                     <legend>{title}</legend>
                     <div className="fields">
                         {fields.map((field, index)=>{
                             if (field.input_type === 'select'){
                                 return <Select attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
-                                    values={values[field.id]} updateValue={updateValue} choices={field.options} multiple={field.multiple}/>
+                                    value={values[field.id]} updateValue={updateValue} choices={field.options} multiple={field.is_multiple} error={field.error}/>
                             } else if (field.input_type === 'checkbox'){
                                 return <Checkbox attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
-                                    values={values[field.id]} updateValue={updateValue} />
+                                    value={values[field.id]} updateValue={updateValue} error={field.error}/>
                             } else if (field.input_type === 'datalist'){
                                 return <Datalist attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
-                                    values={values[field.id]} updateValue={updateValue} choices={field.options}/>
+                                    value={values[field.id]} updateValue={updateValue} choices={field.options} error={field.error}/>
                             } else if (field.input_type === 'textArea'){
                                 return <></>
                             } else {
                                 return <Input attrs={field.attrs} focus={(index === 0)} required={field.is_required} type={field.input_type} id={field.id.toString()} label_tag={field.label} 
-                                        values={values[field.id]} updateValue={updateValue} />
+                                        value={values[field.id]} updateValue={updateValue} error={field.error}/>
                             }
                         })}
                         {fields.map((field, index)=>{
                             if (field.input_type === 'textArea'){
                                 return <TextArea attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
-                                    values={values[field.id]} updateValue={updateValue} />
+                                    value={values[field.id]} updateValue={updateValue} error={field.error}/>
                             }
                         })}
                         

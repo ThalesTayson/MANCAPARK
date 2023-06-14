@@ -36,6 +36,8 @@ urlpatterns = [
     path('mensalidades/cliente/<int:id>/inativar', Mensalidades.cliente_inativar, name='inativarMensalidade'),
     path('mensalidades/lista', Mensalidades.lista, name='listaMensalidades'),
     
-    path('estacionamento/lancar-registro', Estacionamento.update, name='lancarRegistro'),
+    path('estacionamento/lancar-entrada', Estacionamento.entrada, name='lancarEntrada'),
+    path('estacionamento/lancar-saida', Estacionamento.saida, name='lancarSaida'),
     path('estacionamento/lista', Estacionamento.lista, name='listaMEstacionamento'),
+    
 ]

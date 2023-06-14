@@ -4,13 +4,13 @@ from django.http import JsonResponse
 
 from app.models import Clientes
 from app.forms.Clientes import ClienteForm
-from app.tools import utc_to_local, maskTelefone
+from app.tools import utc_to_local, maskTelefone, formToJson
 
 @login_required
 def create(req):
     form = ClienteForm()
     title = "Cadastro de Cliente"
-    message = None
+    message = {}
     var_btn_value = "CADASTRAR"
     
     if ( req.POST ):
@@ -18,39 +18,45 @@ def create(req):
         if form.is_valid():
             form.save()
             form = ClienteForm()
-            message = "Cliente cadastrado com sucesso!"
+            message = {"status": "info", "msg": "Cliente cadastrado com sucesso!"}
         else:
-            message = "Verifique os erros!"
-            
-    return render(req,'form.html', {
-        "form": form, 
+            try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
+            except: message = {"status": "error", "msg": "Verifique os campos!"}
+    
+    data = {
+        "form": formToJson(form),
         "message": message, 
         "var_btn_value" : var_btn_value,
         "title": title
-    })
+    }
+
+    return JsonResponse(data=data)
 
 @login_required
 def update(req, id):
     model = Clientes.objects.get(id = id)
     form = ClienteForm(instance = model)
     title = "Atualizando Cliente"
-    message = None
+    message = {}
     var_btn_value = "SALVAR"
     
     if ( req.POST ):
         form = ClienteForm(req.POST, req.FILES, instance = model)
         if form.is_valid():
             form.save()
-            message = "Cliente atualizado com sucesso!"
+            message = {"status": "info", "msg": "Cliente atualizado com sucesso!"}
         else:
-            message = "Verifique os erros!"
-            
-    return render(req,'form.html', {
-        "form": form, 
+            try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
+            except: message = {"status": "error", "msg": "Verifique os campos!"}
+    
+    data = {
+        "form": formToJson(form),
         "message": message, 
         "var_btn_value" : var_btn_value,
         "title": title
-    })
+    }
+
+    return JsonResponse(data=data)
 
 @login_required
 def lista(req):
@@ -68,6 +74,6 @@ def lista(req):
             {"value": "ATUALIZAR CADASTRO", 'link': f"clientes/{id}/update"}
         ]
         
-        data.append(id, nome_completo, email, telefone, data_de_cadastro, ultima_atualizacao, menu)
+        data.append([id, nome_completo, email, telefone, data_de_cadastro, ultima_atualizacao, menu])
     
     return JsonResponse(data={"data":data})

@@ -4,7 +4,7 @@ from django.http import JsonResponse
 
 from app.models import Veiculos
 from app.forms.Veiculos import VeiculoForm, StatusVeiculoForm
-from app.tools import utc_to_local
+from app.tools import utc_to_local, formToJson
 
 @login_required
 def create(req):
@@ -18,16 +18,19 @@ def create(req):
         if form.is_valid():
             form.save()
             form = VeiculoForm()
-            message = "Veiculo cadastrado com sucesso!"
+            message = {"status": "info", "msg": "Veiculo cadastrado com sucesso!"}
         else:
-            message = "Verifique os erros!"
-            
-    return render(req,'form.html', {
-        "form": form, 
+            try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
+            except: message = {"status": "error", "msg": "Verifique os campos!"}
+    
+    data = {
+        "form": formToJson(form),
         "message": message, 
         "var_btn_value" : var_btn_value,
         "title": title
-    })
+    }
+
+    return JsonResponse(data=data)
 
 @login_required
 def update(req, id):
@@ -41,16 +44,19 @@ def update(req, id):
         form = VeiculoForm(req.POST, req.FILES, instance = model)
         if form.is_valid():
             form.save()
-            message = "Veiculo atualizado com sucesso!"
+            message = {"status": "info", "msg": "Veiculo atualizado com sucesso!"}
         else:
-            message = "Verifique os erros!"
-            
-    return render(req,'form.html', {
-        "form": form, 
+            try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
+            except: message = {"status": "error", "msg": "Verifique os campos!"}
+    
+    data = {
+        "form": formToJson(form),
         "message": message, 
         "var_btn_value" : var_btn_value,
         "title": title
-    })
+    }
+
+    return JsonResponse(data=data)
 
 @login_required
 def status_update(req, id):
@@ -64,16 +70,19 @@ def status_update(req, id):
         form = StatusVeiculoForm(req.POST, req.FILES, instance = model)
         if form.is_valid():
             form.save()
-            message = "Status atualizado com sucesso!"
+            message = {"status": "info", "msg": "Status atualizado com sucesso!"}
         else:
-            message = "Verifique os erros!"
-            
-    return render(req,'form.html', {
-        "form": form, 
+            try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
+            except: message = {"status": "error", "msg": "Verifique os campos!"}
+    
+    data = {
+        "form": formToJson(form),
         "message": message, 
         "var_btn_value" : var_btn_value,
         "title": title
-    })
+    }
+
+    return JsonResponse(data=data)
 
 @login_required
 def lista(req):
@@ -96,6 +105,6 @@ def lista(req):
             {"value": "ATUALIZAR STATUS", 'link': f"veiculos/{id}/status/update"},
         ]
         
-        data.append(id, placa, cliente, tipo_de_veiculo, marca, modelo, data_de_cadastro, ultima_atualizacao, status, menu)
+        data.append([id, placa, cliente, tipo_de_veiculo, marca, modelo, data_de_cadastro, ultima_atualizacao, status, menu])
     
     return JsonResponse(data={"data":data})
