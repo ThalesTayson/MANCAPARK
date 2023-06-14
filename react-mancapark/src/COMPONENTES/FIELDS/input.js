@@ -25,6 +25,7 @@ const Input = ({ type, attrs, required, focus, value, updateValue, id, label_tag
       <input ref={ref} autoFocus={focus} type={type} autoComplete={false} onInput={onInputValue} 
       required={required} id={id} value={value} />
       <label htmlFor={id}>{label_tag}</label>
+      <span class="bar"></span>
       {(error === "")? <></> : <span className="icon_error" title={error}><SVG_Exclamation /></span>}
     </div>
   );

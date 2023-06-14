@@ -157,7 +157,7 @@ div.menu-superior input[type=button]:focus{
     background-color: #00000027;
 
 }
-.form-generic {
+form.form-generic {
     position: fixed;
     z-index: 2;
     width: 40vw;
@@ -167,8 +167,86 @@ div.menu-superior input[type=button]:focus{
     transform: translateY(-50%);
     left: 30vw;
     background-color: #fff;
+    padding: 15px;
+    border-radius: 5pt;
 }
-.icon_error {
+form.form-generic fieldset {border: 0;}
+
+form.form-generic .icon_error {
     color: red;
     transform: scale(1.5);
 }
+
+form.form-generic .Field{
+    position: relative;
+}
+.Field {
+    position: relative;
+}
+  
+.Field input {
+    font-size: 16px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 200px;
+    border: none;
+    border-bottom: 1px solid #515151;
+    background: transparent;
+}
+
+.Field input:focus {
+    outline: none;
+}
+
+.Field label {
+    color: #999;
+    font-size: 18px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    display: flex;
+}
+
+.Field input:focus ~ label,
+.Field input:valid ~ label {
+    transform: translateY(-20px);
+    font-size: 14px;
+    color: #5264AE;
+}
+
+.Field .bar {
+    position: relative;
+    display: block;
+    width: 200px;
+}
+
+.Field .bar:before,.Field .bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: #5264AE;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+.Field .bar:before {
+    left: 50%;
+}
+
+.Field .bar:after {
+    right: 50%;
+}
+
+.Field input:focus ~ .bar:before,
+.Field input:focus ~ .bar:after {
+    width: 50%;
+}
+.Hidden {
+    display: none;
+}
+  

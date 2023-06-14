@@ -35,6 +35,7 @@ const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, c
         <datalist id={'choices_' + id}>
           {keys_choices.map((key)=> {return <option id={"option_datalist_" + choices[key]} _value={key} value={choices[key]}/>})}
         </datalist>
+        <span class="bar"></span>
         <label htmlFor={id}>{label_tag}</label>
         {(error === "")? <></> : <span className="icon_error" title={error}><SVG_Exclamation /></span>}
     </div>

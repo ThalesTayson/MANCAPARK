@@ -41,6 +41,7 @@ const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, cho
           })}
       </select>
       <label htmlFor={id}>{label_tag}</label>
+      <span class="bar"></span>
       {(error === "")? <></> : <span className="icon_error" title={error}><SVG_Exclamation /></span>}
     </div>
   );

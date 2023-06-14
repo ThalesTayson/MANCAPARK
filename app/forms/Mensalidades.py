@@ -14,7 +14,6 @@ class MesalidadeForm(ModelForm):
                 fk_status__descricao = 'Ativo',
                 fk_tipo__in = self.cleaned_data['fk_tipos']
         )
-        
         valor = 0
         for p in precos: valor += p.por_mensalidade
         if precos.count() > 1:
@@ -24,8 +23,8 @@ class MesalidadeForm(ModelForm):
             
         return precos, valor
     
-    def save(self, ):
-        data = self.instance
+    def save(self):
+        data = super().save(False)
         cliente = data.fk_cliente
         cliente.fk_status = Status.objects.get(descricao = 'Ativo')
         pag = Pagamentos()
@@ -40,6 +39,7 @@ class MesalidadeForm(ModelForm):
         
         data.fk_pagamento = pag
         data.save()
+        data.fk_tipos.set(self.cleaned_data['fk_tipos'])
         
         return data
 

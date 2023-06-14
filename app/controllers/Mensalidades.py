@@ -15,7 +15,6 @@ def create(req):
     var_btn_value = "CADASTRAR"
     
     if ( req.POST ):
-        print(req.POST)
         form = MesalidadeForm(req.POST, req.FILES)
         if form.is_valid():
             form.save()
@@ -73,9 +72,8 @@ def lista(req):
         cliente = str(row.fk_cliente)
         data_do_pagamento = utc_to_local(row.fk_pagamento.created_at).strftime("%d/%m/%Y")
         tipos_incluso = ""
-        print(row.fk_tipos.filter())
         for tp in row.fk_tipos.filter():
-            if tipos_incluso != "":
+            if tipos_incluso == "":
                 tipos_incluso += tp.descricao
             else:
                 tipos_incluso += ", {}".format(tp.descricao)
