@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SVG_Icon_three_dots from '../SVG/icon-three-dots.svg';
+import SVG_Icon_three_dots from '../SVG/three-dots.svg';
 
 const Menu = ({data, call_function}) =>{
     

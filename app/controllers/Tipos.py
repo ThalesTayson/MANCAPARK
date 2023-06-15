@@ -18,7 +18,7 @@ def create(req):
         if form.is_valid():
             form.save()
             form = TipoForm()
-            message = {"status": "info", "msg": "Tipo de Veiculo cadastrado com sucesso!"}
+            message = {"status": "success", "msg": "Tipo de Veiculo cadastrado com sucesso!"}
         else:
             try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
             except: message = {"status": "error", "msg": "Verifique os campos!"}
@@ -44,7 +44,7 @@ def update(req, id):
         form = TipoForm(req.POST, req.FILES, instance = model)
         if form.is_valid():
             form.save()
-            message = {"status": "info", "msg": "Tipo de Veiculo atualizado com sucesso!"}
+            message = {"status": "success", "msg": "Tipo de Veiculo atualizado com sucesso!"}
         else:
             try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
             except: message = {"status": "error", "msg": "Verifique os campos!"}
@@ -70,7 +70,7 @@ def status_update(req, id):
         form = StatusTipoForm(req.POST, req.FILES, instance = model)
         if form.is_valid():
             form.save()
-            message = {"status": "info", "msg": "Status atualizado com sucesso!"}
+            message = {"status": "success", "msg": "Status atualizado com sucesso!"}
         else:
             try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
             except: message = {"status": "error", "msg": "Verifique os campos!"}

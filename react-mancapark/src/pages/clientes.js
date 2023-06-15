@@ -3,7 +3,7 @@ import Tabela from "../COMPONENTES/tabelas";
 import Form from "../COMPONENTES/forms";
 import { submit } from "../util";
 
-const Clientes = ({}) => {
+const Clientes = ({ message }) => {
 
     const [data, setData] = useState([]);
     const [form, setForm] = useState(<></>)
@@ -20,10 +20,6 @@ const Clientes = ({}) => {
             });
     }
 
-    const messages = ({status='info', msg}) => {
-        alert(status + ' ' + msg);
-    }
-
     const closeForm = () => {
         setForm(<></>);
         setFundo(<></>);
@@ -31,7 +27,7 @@ const Clientes = ({}) => {
 
     const req_form = ( link ) => {
         setFundo(<div onClick={closeForm} className="fundoVidro" />)
-        setForm(<Form link={link} messages={messages} />);
+        setForm(<Form link={link} messages={message} update_data={get_tabela}/>);
     };
 
     useEffect(()=>{

@@ -3,7 +3,7 @@ import Tabela from "../COMPONENTES/tabelas";
 import Form from "../COMPONENTES/forms";
 import { submit } from "../util";
 
-const Estacionamento = ({}) => {
+const Estacionamento = ({ message }) => {
 
     const [data, setData] = useState([]);
     const [form, setForm] = useState(<></>)
@@ -20,25 +20,25 @@ const Estacionamento = ({}) => {
             });
     }
 
-    const messages = ({status='info', msg}) => {
-        alert(status + ' ' + msg);
-    }
-
     const closeForm = () => {
         setForm(<></>);
         setFundo(<></>);
     };
 
+    const update_data = () => {};
+
     const req_form = ( link ) => {
         setFundo(<div onClick={closeForm} className="fundoVidro" />)
-        setForm(<Form link={link} messages={messages} />);
+        setForm(<Form link={link} messages={message} update_data={update_data} />);
     };
 
     useEffect(()=>{
-        if (data.length === 0) {
-            get_tabela();
-        }
-    },[data])
+
+        const consulta_com_intervalo = setInterval(get_tabela,1500)
+
+        return () => clearInterval(consulta_com_intervalo);
+
+    })
 
     return (
         <>

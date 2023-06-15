@@ -18,7 +18,7 @@ def create(req):
         if form.is_valid():
             form.save()
             form = MarcaForm()
-            message = {"status": "info", "msg": "Marca de Veiculo cadastrado com sucesso!"}
+            message = {"status": "success", "msg": "Marca de Veiculo cadastrado com sucesso!"}
         else:
             try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
             except: message = {"status": "error", "msg": "Verifique os campos!"}
@@ -44,7 +44,7 @@ def update(req, id):
         form = MarcaForm(req.POST, req.FILES, instance = model)
         if form.is_valid():
             form.save()
-            message = {"status": "info", "msg": "Marca de Veiculo atualizada com sucesso!"}
+            message = {"status": "success", "msg": "Marca de Veiculo atualizada com sucesso!"}
         else:
             try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
             except: message = {"status": "error", "msg": "Verifique os campos!"}
@@ -69,7 +69,7 @@ def status_update(req, id):
         form = StatusMarcaForm(req.POST, req.FILES, instance = model)
         if form.is_valid():
             form.save()
-            message = {"status": "info", "msg": "Status atualizado com sucesso!"}
+            message = {"status": "success", "msg": "Status atualizado com sucesso!"}
         else:
             try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
             except: message = {"status": "error", "msg": "Verifique os campos!"}

@@ -5,8 +5,9 @@ import Checkbox from './FIELDS/checkbox';
 import TextArea from './FIELDS/text-area';
 import Datalist from "./FIELDS/datalist";
 import { submit } from "../util";
+import '../CSS/Form.css';
 
-const Form = ({ link, messages }) => {
+const Form = ({ link, messages, update_data }) => {
 
     const [hasForm, setHasform] = useState(false);
     const [values, setValues] = useState({});
@@ -18,16 +19,6 @@ const Form = ({ link, messages }) => {
         e.preventDefault();
         let Method = "POST";
         let params = values;
-        //for (const val of Object.keys(values)){
-        //    if (typeof values[val] === 'object'){
-        //        body.append(val, values[val]);
-        //        for (let i in values[val]){
-        //            params[`${val}[${i}]`] = values[val][i];
-        //        }
-        //    } else {
-        //        params[val] = values[val];
-        //    }
-        //}
         submit({Method, params, link})
             .then((resp) => resp.json())
             .then((resp) => {
@@ -36,6 +27,7 @@ const Form = ({ link, messages }) => {
                 setFields(data.form);
                 let { status , msg } = data.message
                 messages({status ,msg});
+                if (status === 'success') update_data();
                 let _values = values;
                 for (let field of data.form){
                     _values[field] = field.value;

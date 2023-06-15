@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {submit} from './util';
-import './App.css';
+import './CSS/App.css';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import Estacionamento from './pages/estacionamento';
 import Clientes from './pages/clientes';
@@ -11,6 +11,7 @@ import UpdatePreco from './pages/update-preco';
 import Tipos from './pages/tipos';
 import Marcas from './pages/marcas';
 import Modelos from './pages/modelos';
+import Alert from './COMPONENTES/alert';
 
 const filter = (value, itens) =>{
     for (const item of itens){
@@ -25,12 +26,19 @@ const filter = (value, itens) =>{
 
 const App = () => {
     
+    const [AlertMsg, setMessage] = useState(<></>);
+
+    const message = ({status ,msg}) => {
+        setMessage(<Alert motivo={status} message={msg} />);
+        setTimeout(() => setMessage(<></>), 5500);
+    }
 
     useEffect(()=>{
         
     },[])
     return (
     <>
+        {AlertMsg}
         <div className="container">
             <Router>
                 <nav class="nav-menu">
@@ -47,7 +55,7 @@ const App = () => {
                                 <ul class="subItens-menu-itens">
                                     <li><Link to='/mensalidades'>{"Mensalidades"}</Link></li>
                                     <li><Link to='/clientes'>{"Clientes"}</Link></li>
-                                    <li><Link to='/update-preco'>{"Atualizar Valor"}</Link></li>
+                                    <li><Link to='/update-preco'>{"Tabela de Preços"}</Link></li>
                                 </ul>
                             </section>
                         </li>
@@ -75,23 +83,23 @@ const App = () => {
                 </nav>
                 <main>
                     <Routes>
-                        <Route exact path='' element={<Estacionamento 
+                        <Route exact path='' element={<Estacionamento message={message}
                             /> } />
-                        <Route path='/mensalidades' element={<Mensalidades
+                        <Route path='/mensalidades' element={<Mensalidades message={message}
                                 />} />
-                        <Route path='/clientes' element={<Clientes
+                        <Route path='/clientes' element={<Clientes message={message}
                                 />} />
-                        <Route path='/update-preco' element={<UpdatePreco
+                        <Route path='/update-preco' element={<UpdatePreco message={message}
                                 />} />
-                        <Route path='/veiculos' element={<Veiculos
+                        <Route path='/veiculos' element={<Veiculos message={message}
                                 />} />
-                        <Route path='/tipos' element={<Tipos
+                        <Route path='/tipos' element={<Tipos message={message}
                                 />} />
-                        <Route path='/marcas' element={<Marcas
+                        <Route path='/marcas' element={<Marcas message={message}
                                 />} />
-                        <Route path='/modelos' element={<Modelos
+                        <Route path='/modelos' element={<Modelos message={message}
                                 />} />
-                        <Route path='/dashboard' element={<Dashboard
+                        <Route path='/dashboard' element={<Dashboard message={message}
                                 />} />
                     </Routes>
                 </main>

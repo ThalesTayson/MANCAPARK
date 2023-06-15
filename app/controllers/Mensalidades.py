@@ -19,7 +19,7 @@ def create(req):
         if form.is_valid():
             form.save()
             form = MesalidadeForm()
-            message = {"status": "info", "msg": "Pagamento cadastrado com sucesso!"}
+            message = {"status": "success", "msg": "Pagamento cadastrado com sucesso!"}
         else:
             try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
             except: message = {"status": "error", "msg": "Verifique os campos!"}
@@ -45,7 +45,7 @@ def cliente_inativar(req, id):
         form = InativarClienteForm(req.POST, req.FILES, instance = model)
         if form.is_valid():
             form.save()
-            message = {"status": "info", "msg": "Cliente Inativado com sucesso!"}
+            message = {"status": "success", "msg": "Cliente Inativado com sucesso!"}
         else:
             try: message = {"status": "error", "msg": form.errors.get("__all__").as_text()}
             except: message = {"status": "error", "msg": "Verifique os campos!"}
