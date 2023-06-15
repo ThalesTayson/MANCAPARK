@@ -7,8 +7,8 @@
     width: 100vw;
     height: 100vh;
     background-color: #00000027;
-
 }
+
 form.form-generic {
     position: fixed;
     z-index: 2;
@@ -16,27 +16,66 @@ form.form-generic {
     max-width: 40vw;
     max-height: 80vh;
     top: 50vh;
-    transform: translateY(-50%);
     left: 30vw;
     background-color: #fff;
     padding: 15px;
     border-radius: 5pt;
+    animation: fadeinForm 0.5s forwards;
 }
+
 form.form-generic fieldset {border: 0;}
 
 form.form-generic .icon_error {
     color: red;
     transform: scale(1.5);
+    position: absolute;
+    right: 0px;
+    top: 14pt;
 }
+
+form.form-generic .icon_error svg {
+    width: 22px;
+    height: 22px;
+}
+
+form.form-generic .fields {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+form.form-generic .rodape-form {
+    margin-top: 20pt;
+    text-align: end;
+}
+
+form.form-generic fieldset legend {
+    font-size: 16pt;
+    font-weight: 700;
+    margin-bottom: 15pt;
+}
+
+form.form-generic .rodape-form input[type=submit] {
+    padding: 5pt 20pt;
+    background: transparent;
+    border: 2px #4c4ccc solid;
+    border-radius: 4pt;
+    color: #4c4ccc;
+}
+
 form.form-generic .Field {
     position: relative;
-    min-width: 200px;
-    width: 200px;
+    min-width: 220px;
+    width: 220px;
     margin-top: 5pt;
+    overflow: hidden;
 }
-.Field input, .Field select {
+
+form.form-generic .Field input, .Field select {
     font-size: 14pt;
-    padding: 10px 10px 10px 5px;
+    padding: 14pt 10px 10px 5px;
     display: block;
     width: calc(100% - 15px);
     border: none;
@@ -44,67 +83,92 @@ form.form-generic .Field {
     background: transparent;
 }
 
-.Field input:focus, .Field select:focus {
+form.form-generic .Field input:focus, .Field select:focus {
     outline: none;
 }
 
-.Field label {
+form.form-generic .Field label {
     color: #999;
-    font-size: 18px;
+    font-size: 14pt;
     font-weight: normal;
     position: absolute;
     pointer-events: none;
     left: 5px;
-    top: 10px;
+    top: 14pt;
     display: flex;
 }
 
-.Field input:focus ~ label,
-.Field input:valid ~ label,
-.Field select:focus ~ label,
-.Field select:valid ~ label {
-    transform: translateY(-14px);
-    font-size: 14px;
-    color: #5264AE;
+form.form-generic .Field input:focus ~ label,
+form.form-generic .Field input:valid ~ label,
+form.form-generic .Field select:focus ~ label,
+form.form-generic .Field select:valid ~ label {
+    transform: translateY(-15pt);
+    font-size: 11pt;
+    color: #0032ff;
 }
 
-.Field .bar {
+form.form-generic .Field .bar {
     position: relative;
     display: block;
     width: 100%;
 }
 
-.Field .bar:before,.Field .bar:after {
+form.form-generic .Field .bar:before, form.form-generic .Field .bar:after {
     content: '';
     height: 2px;
     width: 0;
     bottom: 1px;
     position: absolute;
-    background: #5264AE;
+    background: #0032ff;
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
 }
 
-.Field .bar:before {
+form.form-generic .Field .bar:before {
     left: 50%;
 }
 
-.Field .bar:after {
+form.form-generic .Field .bar:after {
     right: 50%;
 }
 
-.Field input:focus ~ .bar:before,
-.Field input:focus ~ .bar:after,
-.Field select:focus ~ .bar:before,
-.Field select:focus ~ .bar:after {
+form.form-generic .Field input:focus ~ .bar:before,
+form.form-generic .Field input:focus ~ .bar:after,
+form.form-generic .Field select:focus ~ .bar:before,
+form.form-generic .Field select:focus ~ .bar:after {
     width: 50%;
 }
-.Field select {
+
+form.form-generic .Field select {
     outline: none;
     border-radius: 0;
     border: 2px white solid;
     -webkit-appearance: none;
     -moz-appearance:    none;
     appearance:         none;
+}
+
+@-webkit-keyframes fadeinForm {
+    from {
+        top: 50vh;
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(-50%);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeinForm {
+    from {
+        top: 50vh;
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(-50%);
+        opacity: 1;
+    }
 }

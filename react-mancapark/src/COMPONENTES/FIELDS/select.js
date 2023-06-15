@@ -7,13 +7,15 @@ const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, cho
 
   const keys_choices = Object.keys(choices);
 
+  const [_value, setValue ] = useState(value);
+
   const onChangeValue = (e) => {
     if (!multiple){
-      updateValue(id, e.target.value);
+      setValue(e.target.value);
     } else {
       const options = e.target.selectedOptions;
       const values = Array.from(options).map(({ value }) => value);
-      updateValue(id, values);
+      setValue(values);
     }
   }
 
@@ -26,18 +28,24 @@ const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, cho
         }
       }
     }
-  }, [ref]);
+    updateValue(id, _value);
+  }, [ref], _value);
 
   return (
     <div className="Field" >
       <select ref={ref} multiple={multiple} required={required} autoFocus={focus} onChange={onChangeValue} id={id}>
-          {(value === "")? <option selected value={""}>{"------"}</option> : <option value={""}>{"------"}</option>}
+          {(_value === "")? <option selected value={""}>{""}</option> : <option value={""}>{""}</option>}
           {keys_choices.map((key)=> {
-            if (value === key) {
-              return <option selected value={value}>{choices[key]}</option>
-            } else {
-              return <option value={key}>{choices[key]}</option>
+            try {
+              if ((!multiple) && _value === key) {
+                return <option selected value={value}>{choices[key]}</option>
+              } else if (_value.includes(key)){
+                return <option value={key}>{choices[key]}</option>
+              }
+            } catch (error) {
+              console.log("multiple are blank");  
             }
+            return <option value={key}>{choices[key]}</option>
           })}
       </select>
       <label htmlFor={id}>{label_tag}</label>

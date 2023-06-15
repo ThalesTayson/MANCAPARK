@@ -56,9 +56,6 @@ main {
     background-color: #f6f6f6;
     height: 100vh;
 }
-.hideItem {
-    display: none;
-}
 .menu-item{
     display: none;
 }
@@ -74,57 +71,6 @@ nav.nav-menu li {
 .subItens-menu-itens{
     max-width: 150px;
     overflow-y: auto;
-}
-.btn-icon-three-dots {
-    display: flex;
-    flex-direction: row;
-    border: 0;
-    background-color: transparent;
-    cursor: pointer;
-}
-.menu-three-dots {
-    position: fixed;
-    font-size: 8pt;
-    list-style: none;
-    margin: 0;
-    padding: 0pt 5pt;
-    background: #fff;
-    border-radius: 4px;
-    width: 130px;
-    box-shadow: rgba(0, 0, 0, 0.133) -2px 1px 3.6px 0px, rgba(0, 0, 0, 0.11) 0px 0.3px 0.9px 0px;
-}
-.menu-three-dots li {
-    margin: 5pt 0pt;
-}
-.menu-three-dots li:hover {
-    cursor: pointer;
-    background: #f7f7f7;
-}
-table{
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background-color: #fff;
-    border-radius: 5pt;
-}
-table thead {
-    background-color: #202123;
-    color: #fff;
-    border-radius: 5pt;
-    position:sticky;
-    top: 0;
-}
-table th, table td {
-    padding: 5px;
-}
-div.container-table {
-    position: relative;
-    overflow-x: none;
-    overflow-y: auto;
-    max-width: calc(100% - 160px);
-    max-height: calc(100% - 200px);
-    margin-left: 80px;
-    margin-top: 20px;
 }
 div.menu-superior{
     position: relative;
@@ -149,4 +95,3 @@ div.menu-superior input[type=button]:focus{
 .Hidden {
     display: none;
 }
-  

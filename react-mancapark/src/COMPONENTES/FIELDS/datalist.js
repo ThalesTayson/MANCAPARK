@@ -5,16 +5,18 @@ const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, c
 
   const ref = useRef(null);
 
+  const [_value, setValue ] = useState(value);
+
   const keys_choices = Object.keys(choices);
 
   const onChangeValue = (e) => {
-    let _value = "";
+    let _value_ = "";
     try {
-      _value = document.getElementById("option_datalist_" + e.target.value).getAttribute("_value");
+      _value_ = document.getElementById("option_datalist_" + e.target.value).getAttribute("_value");
     } catch (error) {
-      _value = "";
+      _value_ = "";
     }
-    updateValue(id, _value);
+    setValue(_value_);
   }
 
   useEffect(()=>{
@@ -26,12 +28,13 @@ const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, c
         }
       }
     }
-  }, [ref]);
+    updateValue(id, _value);
+  }, [ref, _value]);
 
   return (
     <div className="Field" >
         <input ref={ref} required={required} onChange={onChangeValue} autoFocus={focus} id={id}
-        list={'choices_' + id} value={choices[value]} />
+        list={'choices_' + id} value={choices[_value]} />
         <datalist id={'choices_' + id}>
           {keys_choices.map((key)=> {return <option id={"option_datalist_" + choices[key]} _value={key} value={choices[key]}/>})}
         </datalist>
