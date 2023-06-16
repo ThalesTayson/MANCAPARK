@@ -65,6 +65,12 @@ form.form-generic .rodape-form input[type=submit] {
     color: #4c4ccc;
 }
 
+form.form-generic .rodape-form input[type=submit]:hover {
+    background: #4c4ccc;
+    color: white;
+    cursor: pointer;
+}
+
 form.form-generic .Field {
     position: relative;
     min-width: 220px;

@@ -5,10 +5,11 @@ const Input = ({ type, attrs, required, focus, value, updateValue, id, label_tag
 
   const ref = useRef(null);
 
-  const [_value, setValue ] = useState(value);
+  const [_get, setGet] = useState(true);
+  const [_value, setValue ] = useState("");
 
   const onInputValue = (e) => {
-    setValue(e.target.value);
+    updateValue(id, e.target.value);
   }
 
   useEffect(()=>{
@@ -20,8 +21,11 @@ const Input = ({ type, attrs, required, focus, value, updateValue, id, label_tag
         }
       }
     }
-    updateValue(id, _value);
-  }, [ref, _value]);
+    if (_get){
+      setValue(value(id));
+      setGet(false);
+    }
+  }, [ref, _get]);
 
   return (
     <div className={(type === 'hidden')? 'Field Hidden': 'Field'}>

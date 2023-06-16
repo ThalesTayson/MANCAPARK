@@ -5,10 +5,11 @@ const Checkbox = ({ attrs, focus, value, updateValue, id, label_tag, error}) => 
 
   const ref = useRef(null);
 
-  const [_value, setValue ] = useState(value);
+  const [_get, setGet] = useState(true);
+  const [_value, setValue ] = useState("");
 
   const onClickCheck = (e) => {
-    setValue((_value)? false: true);
+    updateValue(id, (_value)? false: true);
   }
 
   useEffect(()=>{
@@ -20,7 +21,10 @@ const Checkbox = ({ attrs, focus, value, updateValue, id, label_tag, error}) => 
         }
       }
     }
-    updateValue(id, _value);
+    if (_get){
+      setValue(value(id));
+      setGet(false);
+    }
   }, [ref, _value]);
 
   return (

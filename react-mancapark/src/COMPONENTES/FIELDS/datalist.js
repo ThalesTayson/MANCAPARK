@@ -5,7 +5,8 @@ const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, c
 
   const ref = useRef(null);
 
-  const [_value, setValue ] = useState(value);
+  const [_get, setGet] = useState(true);
+  const [_value, setValue ] = useState("");
 
   const keys_choices = Object.keys(choices);
 
@@ -16,7 +17,7 @@ const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, c
     } catch (error) {
       _value_ = "";
     }
-    setValue(_value_);
+    updateValue(id, _value_);
   }
 
   useEffect(()=>{
@@ -28,8 +29,11 @@ const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, c
         }
       }
     }
-    updateValue(id, _value);
-  }, [ref, _value]);
+    if (_get){
+      setValue(value(id));
+      setGet(false);
+    }
+  }, [ref, _get]);
 
   return (
     <div className="Field" >

@@ -36,6 +36,10 @@ const Form = ({ link, messages, update_data }) => {
             });
     }
 
+    const getValue = (field) => {
+        return values[field];
+    }
+
     const updateValue = (field, value) => {
         let _values = values;
         _values[field] = value;
@@ -56,6 +60,7 @@ const Form = ({ link, messages, update_data }) => {
                     _values[field] = field.value;
                 }
                 setValues(_values);
+                console.log(_values);
             });
     }
 
@@ -73,24 +78,24 @@ const Form = ({ link, messages, update_data }) => {
                         {fields.map((field, index)=>{
                             if (field.input_type === 'select'){
                                 return <Select attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
-                                    value={field.value} updateValue={updateValue} choices={field.options} multiple={field.is_multiple} error={field.error}/>
+                                    value={getValue} updateValue={updateValue} choices={field.options} multiple={field.is_multiple} error={field.error}/>
                             } else if (field.input_type === 'checkbox'){
                                 return <Checkbox attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
-                                    value={field.value} updateValue={updateValue} error={field.error}/>
+                                    value={getValue} updateValue={updateValue} error={field.error}/>
                             } else if (field.input_type === 'datalist'){
                                 return <Datalist attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
-                                    value={field.value} updateValue={updateValue} choices={field.options} error={field.error}/>
+                                    value={getValue} updateValue={updateValue} choices={field.options} error={field.error}/>
                             } else if (field.input_type === 'textArea'){
                                 return <></>
                             } else {
                                 return <Input attrs={field.attrs} focus={(index === 0)} required={field.is_required} type={field.input_type} id={field.id.toString()} label_tag={field.label} 
-                                        value={field.value} updateValue={updateValue} error={field.error}/>
+                                        value={getValue} updateValue={updateValue} error={field.error}/>
                             }
                         })}
                         {fields.map((field, index)=>{
                             if (field.input_type === 'textArea'){
                                 return <TextArea attrs={field.attrs} focus={(index === 0)} required={field.is_required} id={field.id.toString()} label_tag={field.label} 
-                                    value={field.value} updateValue={updateValue} error={field.error}/>
+                                    value={getValue} updateValue={updateValue} error={field.error}/>
                             }
                         })}
                         

@@ -7,15 +7,16 @@ const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, cho
 
   const keys_choices = Object.keys(choices);
 
-  const [_value, setValue ] = useState(value);
+  const [_get, setGet] = useState(true);
+  const [_value, setValue ] = useState("");
 
   const onChangeValue = (e) => {
     if (!multiple){
-      setValue(e.target.value);
+      updateValue(id, e.target.value);
     } else {
       const options = e.target.selectedOptions;
       const values = Array.from(options).map(({ value }) => value);
-      setValue(values);
+      updateValue(id, values);
     }
   }
 
@@ -28,8 +29,11 @@ const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, cho
         }
       }
     }
-    updateValue(id, _value);
-  }, [ref], _value);
+    if (_get){
+      setValue(value(id));
+      setGet(false);
+    }
+  }, [ref, _get]);
 
   return (
     <div className="Field" >
