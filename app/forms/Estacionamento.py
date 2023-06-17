@@ -94,7 +94,7 @@ class SaidaForm(ModelForm):
         )
             
             
-        if data.fk_veiculo.fk_status == 'Ativo':
+        if data.fk_veiculo.fk_status.descricao == 'Ativo':
             return None, reg_entrada, 0
         else:
             

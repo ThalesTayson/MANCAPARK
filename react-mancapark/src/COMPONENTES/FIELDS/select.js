@@ -1,14 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import SVG_Exclamation from '../../SVG/exclamation.svg';
 
-const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, choices, multiple, error}) => {
+const Select = ({ attrs, required, focus, value, getValue, updateValue, id, label_tag, choices, multiple, error}) => {
 
   const ref = useRef(null);
 
+  const [init, setInit] = useState(true);
+
   const keys_choices = Object.keys(choices);
 
-  const [_get, setGet] = useState(true);
-  const [_value, setValue ] = useState("");
+  const [_get, setGet] = useState(false);
+  const [_value, setValue ] = useState(value);
 
   const onChangeValue = (e) => {
     if (!multiple){
@@ -18,9 +20,14 @@ const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, cho
       const values = Array.from(options).map(({ value }) => value);
       updateValue(id, values);
     }
+    setGet(true);
   }
 
   useEffect(()=>{
+    if (init) {
+      updateValue(id, value);
+      setInit(false);
+    }
     if (ref !== null){
       let keysAttr = Object.keys(attrs);
       for (let key of keysAttr){
@@ -30,10 +37,10 @@ const Select = ({ attrs, required, focus, value, updateValue, id, label_tag, cho
       }
     }
     if (_get){
-      setValue(value(id));
+      setValue(getValue(id));
       setGet(false);
     }
-  }, [ref, _get]);
+  }, [ref, _get, init]);
 
   return (
     <div className="Field" >

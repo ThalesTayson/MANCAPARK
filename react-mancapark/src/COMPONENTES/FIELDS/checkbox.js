@@ -1,18 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
 import SVG_Exclamation from '../../SVG/exclamation.svg';
 
-const Checkbox = ({ attrs, focus, value, updateValue, id, label_tag, error}) => {
+const Checkbox = ({ attrs, focus, value, getValue, updateValue, id, label_tag, error}) => {
 
   const ref = useRef(null);
 
-  const [_get, setGet] = useState(true);
-  const [_value, setValue ] = useState("");
+  const [init, setInit] = useState(true);
+
+  const [_get, setGet] = useState(false);
+  const [_value, setValue ] = useState(value);
 
   const onClickCheck = (e) => {
     updateValue(id, (_value)? false: true);
+    setGet(true);
   }
 
   useEffect(()=>{
+    if (init) {
+      updateValue(id, value);
+      setInit(false);
+    }
     if (ref !== null){
       let keysAttr = Object.keys(attrs);
       for (let key of keysAttr){
@@ -22,10 +29,10 @@ const Checkbox = ({ attrs, focus, value, updateValue, id, label_tag, error}) => 
       }
     }
     if (_get){
-      setValue(value(id));
+      setValue(getValue(id));
       setGet(false);
     }
-  }, [ref, _value]);
+  }, [ref, _get, init]);
 
   return (
     <div className="Field-check">

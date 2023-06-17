@@ -4,6 +4,9 @@ from datetime import timezone
 def utc_to_local(utc_dt):
     return utc_dt.replace(tzinfo=timezone.utc).astimezone(tz=None)
 
+def local_to_utc(dt):
+    return dt.replace(tzinfo=None).astimezone(tz=timezone.utc)
+
 def formToJson(form):
     data = []
     fields = form.fields.keys()

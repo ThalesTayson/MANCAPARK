@@ -74,7 +74,7 @@ def lista(req):
         data_hora_da_entrada = utc_to_local(reg_entrada.created_at).strftime("%d/%m/%Y %H:%M:%S")
         tempo = calculaTempo_em_hour_e_min(reg_entrada.created_at, timezone.now())
         valor = "---"
-        if row.fk_veiculo.fk_status == 'Inativo':
+        if row.fk_veiculo.fk_status.descricao == 'Inativo':
             preco = Precos.objects.get(
                     fk_status__descricao = 'Ativo', 
                     fk_tipo = row.fk_veiculo.fk_modelo.fk_tipo

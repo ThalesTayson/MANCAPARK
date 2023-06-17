@@ -1,5 +1,5 @@
 from django.urls import path
-from .controllers import Templates, Clientes, Estacionamento, Marcas, Mensalidades, Modelos, Tipos,Veiculos, Precos
+from .controllers import Templates, Clientes, Estacionamento, Marcas, Mensalidades, Modelos, Tipos,Veiculos, Precos, Dashboard
 
 urlpatterns = [
     
@@ -39,5 +39,9 @@ urlpatterns = [
     path('estacionamento/lancar-entrada', Estacionamento.entrada, name='lancarEntrada'),
     path('estacionamento/lancar-saida', Estacionamento.saida, name='lancarSaida'),
     path('estacionamento/lista', Estacionamento.lista, name='listaMEstacionamento'),
+    
+    path('dashboard/dados', Dashboard.dados, name='dados'),
+    path('dashboard/grafico-entradas', Dashboard.graficoEntradas, name='grafico'),
+    path('dashboard/grafico-faturamento', Dashboard.graficoFaturamento, name='grafico'),
     
 ]

@@ -20,7 +20,7 @@ form.form-generic {
     background-color: #fff;
     padding: 15px;
     border-radius: 5pt;
-    animation: fadeinForm 0.5s forwards;
+    animation: fadeinForm 0.1s forwards;
 }
 
 form.form-generic fieldset {border: 0;}

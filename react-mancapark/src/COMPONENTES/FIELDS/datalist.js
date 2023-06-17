@@ -1,14 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import SVG_Exclamation from '../../SVG/exclamation.svg';
 
-const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, choices, error }) => {
+const Datalist = ({ attrs, required, focus, value, getValue, updateValue, id, label_tag, choices, error }) => {
 
   const ref = useRef(null);
 
-  const [_get, setGet] = useState(true);
-  const [_value, setValue ] = useState("");
+  const [init, setInit] = useState(true);
+
+  const [_get, setGet] = useState(false);
+  const [_value, setValue ] = useState(value);
 
   const keys_choices = Object.keys(choices);
+
+  const onInputValue = (e) => {
+    setValue(e.target.value);
+  }
 
   const onChangeValue = (e) => {
     let _value_ = "";
@@ -18,9 +24,14 @@ const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, c
       _value_ = "";
     }
     updateValue(id, _value_);
+    setGet(true);
   }
 
   useEffect(()=>{
+    if (init) {
+      updateValue(id, value);
+      setInit(false);
+    }
     if (ref !== null){
       let keysAttr = Object.keys(attrs);
       for (let key of keysAttr){
@@ -30,14 +41,14 @@ const Datalist = ({ attrs, required, focus, value, updateValue, id, label_tag, c
       }
     }
     if (_get){
-      setValue(value(id));
+      setValue(getValue(id));
       setGet(false);
     }
-  }, [ref, _get]);
+  }, [ref, _get, init]);
 
   return (
     <div className="Field" >
-        <input ref={ref} required={required} onChange={onChangeValue} autoFocus={focus} id={id}
+        <input ref={ref} required={required} onInput={onInputValue} onChange={onChangeValue} autoFocus={focus} id={id}
         list={'choices_' + id} value={choices[_value]} />
         <datalist id={'choices_' + id}>
           {keys_choices.map((key)=> {return <option id={"option_datalist_" + choices[key]} _value={key} value={choices[key]}/>})}

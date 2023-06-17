@@ -32,7 +32,7 @@ const Alert = ({ motivo, message }) => {
     return (<>
         <div className="message-alert">
             <span className="main-message">
-                <span className="icon">{icon}</span>
+                <span style={_style} className="icon">{icon}</span>
                 <span className="message">{message}</span>
             </span>
         </div>

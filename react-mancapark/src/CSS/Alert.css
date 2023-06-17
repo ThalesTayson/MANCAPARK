@@ -16,6 +16,7 @@ div.message-alert .main-message {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    border-radius: 4pt;
 }
 div.message-alert .message{
     font-size: 14pt;
@@ -24,7 +25,6 @@ div.message-alert .message{
     overflow: none;
     max-width: 280pt;
     max-height: 350pt;
-    min-height: 50pt;
 }
 
 

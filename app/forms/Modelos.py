@@ -3,13 +3,16 @@ from django.forms import ModelForm
 from app.models import Modelos, Tipos, Marcas
 
 class ModeloForm(ModelForm):
-    fk_tipo = forms.ModelChoiceField(queryset=Tipos.objects.filter(fk_status__descricao = 'Ativo'), label = 'Tipo de veiculo')
-    fk_marca = forms.ModelChoiceField(queryset=Marcas.objects.filter(fk_status__descricao = 'Ativo'), label = 'Marca')
     
     class Meta:
         model = Modelos
         fields = ['descricao', 'fk_tipo', 'fk_marca']
-
+        
+    def __init__(self, *args, **kwargs):
+        super(ModeloForm, self).__init__(*args, **kwargs)
+        self.fields['fk_tipo'].queryset = Tipos.objects.filter(fk_status__descricao = 'Ativo')
+        self.fields['fk_marca'].queryset = Marcas.objects.filter(fk_status__descricao = 'Ativo')
+        
 class StatusModeloForm(ModelForm):
     
     class Meta:

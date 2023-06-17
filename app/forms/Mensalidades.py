@@ -3,12 +3,15 @@ from django.forms import ModelForm
 from app.models import Clientes, Veiculos, Status, Mensalidades, Pagamentos, Precos, Tipos
 
 class MesalidadeForm(ModelForm):
-    fk_tipos = forms.ModelMultipleChoiceField(queryset=Tipos.objects.filter(fk_status__descricao = 'Ativo'),label="Tipos de Veiculo")
     
     class Meta:
         model = Mensalidades
         fields = ['fk_cliente', 'fk_tipos']
     
+    def __init__(self, *args, **kwargs):
+        super(MesalidadeForm, self).__init__(*args, **kwargs)
+        self.fields['fk_tipos'].queryset = Tipos.objects.filter(fk_status__descricao = 'Ativo')
+        
     def getValor(self):
         precos = Precos.objects.filter(
                 fk_status__descricao = 'Ativo',

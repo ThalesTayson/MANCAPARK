@@ -56,8 +56,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'MANCAPARK.wsgi.application'
 
 default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'KoalaDB.sqlite3')
-DATABASES = { 'default': config('DATABASE_URL', default=default_dburl, cast=dburl), }
+#DATABASES = { 'default': config('DATABASE_URL', default=default_dburl, cast=dburl), }
 
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db_mancapark',
+        'USER': 'root',
+        'PASSWORD': '1234',
+        'HOST':'localhost',
+        'PORT':'3306',
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
