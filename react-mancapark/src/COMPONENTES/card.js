@@ -3,7 +3,7 @@ import '../CSS/Card.css';
 import SVG_Icon_down from '../SVG/arrow-down.svg';
 import SVG_Icon_up from '../SVG/arrow-up.svg';
 
-const Card = ({ title, valor, indice, descricaoIndice }) => {
+const Card = ({ title, valor, indice, legendIndice }) => {
     let icon = <></>;
     
     if (indice > 0){
@@ -21,11 +21,11 @@ const Card = ({ title, valor, indice, descricaoIndice }) => {
                 {valor}
             </p>
             <p className="dash-indice">
-                <span>{icon}{Number(indice).toFixed(4)}</span><span>{descricaoIndice}</span>
+                <span className="indice">{icon}{Number(indice).toFixed(4)}</span><span className="indice-legend">{legendIndice}</span>
             </p>
         </div>
     </>);
 
 };
 
-export default Alert;
+export default Card;

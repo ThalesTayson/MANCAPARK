@@ -41,18 +41,18 @@ const App = () => {
         {AlertMsg}
         <div className="container">
             <Router>
-                <nav class="nav-menu">
+                <nav className="nav-menu">
                     <span className="title">{"MANCAPARK"}</span>
                     <ul>
                         <li>
-                            <input class="menu-item" type="checkbox" id="item-home"/>
-                            <label for="item-home"><Link to=''>{"Home"}</Link></label>
+                            <input className="menu-item" type="checkbox" id="item-home"/>
+                            <label htmlFor="item-home"><Link to=''>{"Home"}</Link></label>
                         </li>
                         <li>
-                            <input class="menu-item" type="checkbox" id="item-mensalidades"/>
-                            <label for="item-mensalidades">{"Mensalidades"}</label>
-                            <section class="subItens-menu">
-                                <ul class="subItens-menu-itens">
+                            <input className="menu-item" type="checkbox" id="item-mensalidades"/>
+                            <label htmlFor="item-mensalidades">{"Mensalidades"}</label>
+                            <section className="subItens-menu">
+                                <ul className="subItens-menu-itens">
                                     <li><Link to='/mensalidades'>{"Mensalidades"}</Link></li>
                                     <li><Link to='/clientes'>{"Clientes"}</Link></li>
                                     <li><Link to='/update-preco'>{"Tabela de Preços"}</Link></li>
@@ -60,10 +60,10 @@ const App = () => {
                             </section>
                         </li>
                         <li>
-                            <input class="menu-item" type="checkbox" id="item-veiculos"/>
-                            <label for="item-veiculos">{"Veiculos"}</label>
-                            <section class="subItens-menu">
-                                <ul class="subItens-menu-itens">
+                            <input className="menu-item" type="checkbox" id="item-veiculos"/>
+                            <label htmlFor="item-veiculos">{"Veiculos"}</label>
+                            <section className="subItens-menu">
+                                <ul className="subItens-menu-itens">
                                     <li><Link to='/veiculos'>{"Veiculos"}</Link></li>
                                     <li><Link to='/tipos'>{"Tipos"}</Link></li>
                                     <li><Link to='/marcas'>{"Marcas"}</Link></li>
@@ -72,12 +72,12 @@ const App = () => {
                             </section>
                         </li>
                         <li>
-                            <input class="menu-item" type="checkbox" id="item-dashboard"/>
-                            <label for="item-dashboard"><Link to='/dashboard'>{"Dashboard"}</Link></label>
+                            <input className="menu-item" type="checkbox" id="item-dashboard"/>
+                            <label htmlFor="item-dashboard"><Link to='/dashboard'>{"Dashboard"}</Link></label>
                         </li>
                         <li>
-                            <input class="menu-item" type="checkbox" id="item-dashboard"/>
-                            <label for="item-dashboard">{"Sair"}</label>
+                            <input className="menu-item" type="checkbox" id="item-dashboard"/>
+                            <label htmlFor="item-dashboard">{"Sair"}</label>
                         </li>
                     </ul> 
                 </nav>

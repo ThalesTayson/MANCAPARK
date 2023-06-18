@@ -1,6 +1,6 @@
 .fundoVidro {
     backdrop-filter: blur(1px);
-    z-index: 1;
+    z-index: 2;
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
 
 form.form-generic {
     position: fixed;
-    z-index: 2;
+    z-index: 3;
     width: 40vw;
     max-width: 40vw;
     max-height: 80vh;

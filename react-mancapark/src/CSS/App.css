@@ -8,15 +8,17 @@ div.container {
     display: flex;
 }
 header {
-    position: relative;
+    position: sticky;
+    top:0;
     height: 70px;
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, 0.133) 3px 1.6px 3.6px 0px, rgba(0, 0, 0, 0.11) 0px 0.3px 0.9px 0px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: calc(100vw - 200px);
+    width: 100%;
     background-color: #FFFFFF;
+    z-index: 1;
 }
 header span {
     margin-left: 50px;
@@ -55,6 +57,11 @@ main {
     position: relative;
     background-color: #f6f6f6;
     height: 100vh;
+    max-height: 100vh;
+    width: calc(100vw - 200px);
+    max-width: calc(100vw - 200px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .menu-item{
     display: none;

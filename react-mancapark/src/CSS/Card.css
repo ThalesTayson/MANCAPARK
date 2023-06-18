@@ -1,0 +1,29 @@
+.dash-card {
+    height: calc(50% - 40px);
+    margin: 20px;
+    width: calc(50% - 40px);
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.133) 0.6px 1.6px 6.6px 2px, rgba(0, 0, 0, 0.11) 1px 0.3px 17px 0.1px;
+    border-radius: 4pt;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+p.dash-valor {
+    font-size: 20pt;
+}
+
+p.dash-indice .indice {
+    font-size: 12pt;
+    font-weight: 700;
+}
+p.dash-indice .indice svg{
+    height: 12pt;
+    width: 12pt;
+}
+p.dash-indice .indice-legend {
+    font-size: 10pt;
+    color: #837e7e;
+}
