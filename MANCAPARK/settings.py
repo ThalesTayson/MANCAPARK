@@ -1,16 +1,20 @@
 from pathlib import Path
 import os
-from decouple import config
-from dj_database_url import parse as dburl
+#from decouple import config
+from dj_database_url import config as config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure--xge3el7t-slg34(fkx++kbt(noci9l#^79))4vgiv72$p*qbu'
+SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 
-DEBUG = True
+DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = ['localhost']
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -27,6 +31,7 @@ AUTH_USER_MODEL = 'app.Usuarios'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -55,10 +60,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MANCAPARK.wsgi.application'
 
-default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'KoalaDB.sqlite3')
-#DATABASES = { 'default': config('DATABASE_URL', default=default_dburl, cast=dburl), }
+default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'mancapark.db')
+DATABASES = {
+    'default': config(
+        'DATABASE_URL',
+        default= default_dburl,
+        conn_max_age=600
+    )
+}
 
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -69,6 +80,8 @@ DATABASES = {
         'PORT':'3306',
     }
 }
+"""
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -95,12 +108,19 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOGIN_URL = 'accounts/auth/login'
+LOGIN_URL = '/accounts/auth/login'
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'WEB/static'),
-] 
+
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'WEB/static')
+
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+else:
+
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'WEB/static'),
+    ] 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

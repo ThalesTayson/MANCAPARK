@@ -1,0 +1,20 @@
+databases:
+  - name: mancapark
+    databaseName: db_mancapark
+    user: dba_mancapark
+
+services:
+  - type: web
+    name: mancapark
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn mancapark.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mancapark
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
