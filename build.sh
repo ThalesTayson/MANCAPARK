@@ -10,4 +10,4 @@ poetry install
 poetry run python manage.py collectstatic --no-input
 poetry run python manage.py makemigrations
 poetry run python manage.py migrate
-poetry run python python init_base.py
+poetry run python init_base.py
