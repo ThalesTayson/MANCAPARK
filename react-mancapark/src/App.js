@@ -77,7 +77,7 @@ const App = () => {
                         </li>
                         <li>
                             <input className="menu-item" type="checkbox" id="item-dashboard"/>
-                            <label htmlFor="item-dashboard">{"Sair"}</label>
+                            <label htmlFor="item-dashboard"><a href="/accounts/auth/logout">{"Sair"}</a></label>
                         </li>
                     </ul> 
                 </nav>
