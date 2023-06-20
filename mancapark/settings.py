@@ -109,8 +109,8 @@ USE_TZ = True
 
 LOGIN_URL = '/accounts/auth/login'
 
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+STATIC_URL = 'static/'
+MEDIA_URL = 'media/'
 
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'WEB/static')
