@@ -29,6 +29,7 @@ AUTH_USER_MODEL = 'app.Usuarios'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -117,8 +118,9 @@ STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 
 if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'PRD/statics')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'statics-files')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'files-medias')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
