@@ -40,7 +40,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'MANCAPARK.routes'
+ROOT_URLCONF = 'mancapark.routes'
 
 TEMPLATES = [
     {
@@ -58,7 +58,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'MANCAPARK.wsgi.application'
+WSGI_APPLICATION = 'mancapark.wsgi.application'
 
 default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'mancapark.db')
 DATABASES = {
