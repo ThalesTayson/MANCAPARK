@@ -1,12 +1,10 @@
 from pathlib import Path
 import os
-#from decouple import config
 from dj_database_url import config as config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+SECRET_KEY = os.environ.get('SECRET_KEY', default='sdfjvsadifhu!@$!248236754235sdyvfgb2!@1896QAW3G97FR16!@#$@$¨#%&3gSDfDGp')
 
 DEBUG = 'RENDER' not in os.environ
 
@@ -31,7 +29,6 @@ AUTH_USER_MODEL = 'app.Usuarios'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -45,7 +42,9 @@ ROOT_URLCONF = 'mancapark.routes'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['WEB'],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'WEB/')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -111,12 +110,11 @@ USE_TZ = True
 LOGIN_URL = '/accounts/auth/login'
 
 STATIC_URL = '/static/'
-
+MEDIA_URL = '/media/'
 
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'WEB/static')
-
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'files-medias')
 else:
 
     STATICFILES_DIRS = [

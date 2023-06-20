@@ -1,8 +1,10 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from .controllers import Templates, Clientes, Estacionamento, Marcas, Mensalidades, Modelos, Tipos,Veiculos, Precos, Dashboard
 
 urlpatterns = [
-    
+
     path('', Templates.home, name='home'),
     
     path('clientes/create', Clientes.create, name='createCliente'),
@@ -44,4 +46,4 @@ urlpatterns = [
     path('dashboard/grafico-entradas', Dashboard.graficoEntradas, name='grafico'),
     path('dashboard/grafico-faturamento', Dashboard.graficoFaturamento, name='grafico'),
     
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
