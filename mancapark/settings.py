@@ -109,16 +109,16 @@ USE_TZ = True
 
 LOGIN_URL = '/accounts/auth/login'
 
+STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'WEB/static'),
+]
+
 STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 
 if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'WEB/static')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'PRD/statics')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'files-medias')
-else:
 
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'WEB/static'),
-    ] 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
