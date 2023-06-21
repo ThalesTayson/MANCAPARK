@@ -82,7 +82,6 @@ DATABASES = {
 }
 """
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -118,8 +117,15 @@ STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 
 if not DEBUG:
+
+    STORAGES = {
+        # ...
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+
     STATIC_ROOT = os.path.join(BASE_DIR, 'statics-files')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'files-medias')
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
