@@ -117,7 +117,7 @@ MEDIA_URL = 'media/'
 
 if not DEBUG:
 
-    STATIC_ROOT = os.path.join(BASE_DIR, 'statics-files')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'WEB/static')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'files-medias')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
