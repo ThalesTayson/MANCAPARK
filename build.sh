@@ -2,12 +2,13 @@
 # exit on error
 set -o errexit
 pip install --upgrade pip
-pip install poetry
+pip install -r requirements.txt
+#pip install poetry
 
-poetry lock --no-update
-poetry install
+#poetry lock --no-update
+#poetry install
 
-#poetry run python manage.py collectstatic --no-input
-poetry run python manage.py makemigrations
-poetry run python manage.py migrate
-poetry run python init_base.py
+python manage.py collectstatic --no-input
+python manage.py makemigrations
+python manage.py migrate
+python init_base.py
