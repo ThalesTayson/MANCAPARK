@@ -1,31 +1,43 @@
 .dash-row {
     position: relative;
-    height: calc((100% - 70px) / 2);
+    height: calc(((100% - 70px) / 2) - 20px);
     max-height: calc((100% - 70px) / 2);
     display: flex;
     flex-direction: row;
-    padding: 0 20px;
-    justify-content: space-between;
-    align-items: center;
+    padding: 10px;
+    flex-wrap: nowrap;
 }
-.chart-entradas{
+
+.chart{
+    max-height: 100%;
+    margin: 0px 10px;
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, 0.133) 0.6px 1.6px 6.6px 2px, rgba(0, 0, 0, 0.11) 1px 0.3px 17px 0.1px;
     border-radius: 4pt;
 }
-.chart-faturamento{
-    box-sizing: border-box;
-    box-shadow: rgba(0, 0, 0, 0.133) 0.6px 1.6px 6.6px 2px, rgba(0, 0, 0, 0.11) 1px 0.3px 17px 0.1px;
-    border-radius: 4pt;
-}
+
 .dash-cards{
+    margin-left: 10px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
-    width: 45%;
-    height: 100%;
-    justify-content: center;
+    width: 50%;
     position: relative;
+    align-content: space-between;
+    justify-content: space-between;
 }
 
+@media screen and (orientation: portrait) and (max-width: 600px){
+    .dash-row {
+        flex-wrap: wrap;
+        max-height: 100vh;
+        height: auto;
+    }
+    .dash-cards{
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .chart{
+        margin-bottom: 10px;
+    }
+}

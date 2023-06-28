@@ -5,11 +5,14 @@ import SVG_Icon_up from '../SVG/arrow-up.svg';
 
 const Card = ({ title, valor, indice, legendIndice }) => {
     let icon = <></>;
-    
+    const style = {color: "#837e7e"};
+
     if (indice > 0){
         icon = <SVG_Icon_up width="50" height="50"/>;
+        style["color"] = "#00c300";
     } else if (indice < 0){
         icon = <SVG_Icon_down width="50" height="50"/>;
+        style["color"] = "#ff3939";
     }
 
     return (<>
@@ -21,7 +24,7 @@ const Card = ({ title, valor, indice, legendIndice }) => {
                 {valor}
             </p>
             <p className="dash-indice">
-                <span className="indice">{icon}{Number(indice).toFixed(4)}</span><span className="indice-legend">{legendIndice}</span>
+                <span className="indice" style={style}>{icon}{Number(indice).toFixed(4)}{"%"}</span><span className="indice-legend">{legendIndice}</span>
             </p>
         </div>
     </>);

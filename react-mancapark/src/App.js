@@ -12,6 +12,14 @@ import Tipos from './pages/tipos';
 import Marcas from './pages/marcas';
 import Modelos from './pages/modelos';
 import Alert from './COMPONENTES/alert';
+import SVG_Icon_hambuguer from './SVG/hambuguer.svg';
+
+const is_mobile = () => {
+    if (window.screen.width < window.screen.height){
+        return true;
+    }
+    return false;
+};
 
 const filter = (value, itens) =>{
     for (const item of itens){
@@ -26,27 +34,45 @@ const filter = (value, itens) =>{
 
 const App = () => {
     
+    const [fundo, setFundo] = useState(<></>)
     const [AlertMsg, setMessage] = useState(<></>);
+    const [menu_is_active, setMenuActive] = useState(!is_mobile())
 
     const message = ({status ,msg}) => {
         setMessage(<Alert motivo={status} message={msg} />);
         setTimeout(() => setMessage(<></>), 5500);
     }
 
+    const closeMenu = () => {
+        if (is_mobile()){
+            setMenuActive(false);
+            setFundo(<></>);
+        }
+    }
+
+    const onClickMenu = () => {
+        if (is_mobile()){
+            setMenuActive((menu_is_active)? false : true);
+            setFundo((menu_is_active)? <></> : <div onClick={closeMenu} className="fundoVidro" />);
+        } 
+    }
+
     useEffect(()=>{
-        
+
     },[])
     return (
     <>
         {AlertMsg}
+        {fundo}
+        <button onClick={onClickMenu} className={(menu_is_active)? "Hidden" : "btn-menu-list"}><SVG_Icon_hambuguer width={60} height={60} /></button>
         <div className="container">
-            <Router>
-                <nav className="nav-menu">
+            <Router history={history}>
+                <nav className={(menu_is_active)? "nav-menu" : "Hidden"}>
                     <span className="title">{"MANCAPARK"}</span>
                     <ul>
                         <li>
                             <input className="menu-item" type="checkbox" id="item-home"/>
-                            <label htmlFor="item-home"><Link to=''>{"Home"}</Link></label>
+                            <label htmlFor="item-home"><Link to='/'>{"Home"}</Link></label>
                         </li>
                         <li>
                             <input className="menu-item" type="checkbox" id="item-mensalidades"/>
@@ -83,7 +109,7 @@ const App = () => {
                 </nav>
                 <main>
                     <Routes>
-                        <Route exact path='' element={<Estacionamento message={message}
+                        <Route exact path='/' element={<Estacionamento message={message}
                             /> } />
                         <Route path='/mensalidades' element={<Mensalidades message={message}
                                 />} />

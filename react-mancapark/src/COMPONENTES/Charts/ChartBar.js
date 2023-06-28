@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-const Charts = ({ width, height, title, data }) => {
+const ChartBar = ({ width, height, title, data }) => {
 
     const [labels, setLabels] = useState([]);
     const [datasets, setDatasets] = useState([]);
@@ -60,4 +60,4 @@ const Charts = ({ width, height, title, data }) => {
     return <Bar width={width} height={height} options={options} data={{labels: labels, datasets: datasets}} />;
 }
 
-export default Charts;
+export default ChartBar;
