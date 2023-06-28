@@ -4,19 +4,46 @@ from django.utils import timezone
 from django.db.models import Count, Sum, DateField
 from django.db.models.functions import Cast
 
-from app.models import Estacionamento, Registros, Precos, Pagamentos
+from app.models import Estacionamento, Registros, Precos, Pagamentos, Avulsos
 from app.tools import calculaTempo, local_to_utc
 
 @login_required
 def dados(req):
-    now = timezone.now().replace(hour=0,minute=0,second=0,microsecond=0)
-    total_estacionados = Estacionamento.objects.filter(fk_status__descricao = 'Ativo').count()
-    total_de_entradas = Registros.objects.filter(
-        created_at__gte = now, 
-        fk_tipoRegistro__descricao = 'Entrada'
-    ).count()
     
-    valor = 0
+    # Comparation dates
+    now = timezone.now().replace(hour=0,minute=0,second=0,microsecond=0)
+    yesterday = timezone.now() - timezone.timedelta(days=1)
+    thirty_days = now - timezone.timedelta(days=30)
+    
+    last_24_hours = Registros.objects.filter(
+            fk_tipoRegistro__descricao = 'Entrada', 
+            fk_status__descricao = 'Inativo', created_at__gte =  yesterday).count()
+    parked_total_now = Estacionamento.objects.filter(fk_status__descricao = 'Ativo').count()
+    try: parked_indexes = (parked_total_now * 100) / last_24_hours
+    except: parked_indexes = 100
+    parked = {
+        'title': 'Estacionados',
+        "total": parked_total_now,
+        "indexes": parked_indexes - (last_24_hours / 24),
+        'subtitle': 'em relação às ultimas 24 horas.'
+    }
+    
+    last_30_days = Registros.objects.filter(
+            fk_tipoRegistro__descricao = 'Entrada', 
+            fk_status__descricao = 'Inativo', created_at__gte =  thirty_days).count()
+    entrances_total_today = Registros.objects.filter(
+            created_at__gte = now, 
+            fk_tipoRegistro__descricao = 'Entrada').count()
+    try: entrances_indexes = (entrances_total_today * 100) / last_30_days
+    except: entrances_indexes = 100
+    entrances = {
+        'title': 'Total de Entradas Hoje',
+        "total": entrances_total_today,
+        "indexes": entrances_indexes - (last_30_days / 30),
+        'subtitle': 'em relação aos ultimos 30 dias.'
+    }
+    
+    payment_receive = 0
     query = Estacionamento.objects.filter(
         fk_status__descricao = 'Ativo', 
         fk_veiculo__fk_status__descricao = 'Inativo'
@@ -32,15 +59,39 @@ def dados(req):
                 fk_status__descricao = 'Ativo', 
                 fk_tipo = row.fk_veiculo.fk_modelo.fk_tipo
         )
-        valor += float(preco.por_hora * tempo)
-    total_a_receber = str("R$ %.2f" % float(valor)).replace('.', ',')
+        payment_receive += float(preco.por_hora * tempo)
+    query = Avulsos.objects.filter(
+        pagamento__created_at__gte = yesterday
+    ).aggregate(total=Sum('pagamento__valor'))
+    payment_last_24_hours = float(query.get('total')) if query.get('total') is not None else 0.0
+    try: payments_indexes = (payment_receive * 100) / payment_last_24_hours
+    except: payments_indexes = 100
+    payments_receive = {
+        'title': 'Total a Receber',
+        'receive': str("R$ %.2f" % float(payment_receive)).replace('.', ','),
+        'indexes': payments_indexes - (payment_last_24_hours / 24),
+        'subtitle': 'em relação às ultimas 24 horas.'
+    }
     
-    valor = 0
+    payments_total_today = 0
     query = Pagamentos.objects.filter(created_at__gte = now)
-    for row in query: valor += float(row.valor)
-    total_recebidos_do_dia = str("R$ %.2f" % float(valor)).replace('.', ',')
+    for row in query: payments_total_today += float(row.valor)
+    query = Pagamentos.objects.filter(
+        created_at__gte = thirty_days,
+        created_at__lte = now
+    ).aggregate(total=Sum('valor'))
+    payments_last_30_days = float(query.get('total')) if query.get('total') is not None else 0.0
+    try: payments_indexes = (payments_total_today * 100) / payments_last_30_days
+    except: payments_indexes = 100
     
-    totais_por_tipo = []
+    payments_received = {
+        'title': 'Total Recebido',
+        'received': str("R$ %.2f" % float(payments_total_today)).replace('.', ','),
+        'indexes': payments_indexes - (payments_last_30_days / 30),
+        'subtitle': 'em relação aos ultimos 30 dias.'
+    }
+    
+    type_last_month = []
     query = Registros.objects.filter(
         created_at__gte = (now - timezone.timedelta(days=30)),
         fk_tipoRegistro__descricao = 'Entrada'
@@ -51,17 +102,17 @@ def dados(req):
         'fk_veiculo__fk_modelo__fk_tipo__descricao'
     )
     for row in query: 
-        totais_por_tipo.append([
+        type_last_month.append([
             row.get('fk_veiculo__fk_modelo__fk_tipo__descricao'),
             row.get('count')
         ])
     
     data = {
-        "total_estacionados": total_estacionados,
-        "total_de_entradas": total_de_entradas,
-        "total_a_receber": total_a_receber,
-        "total_recebidos_do_dia": total_recebidos_do_dia,
-        "totais_de_entradas_por_tipo_ultimo_mes": totais_por_tipo
+        "parked": parked,
+        "entrances": entrances,
+        "payments_receive": payments_receive,
+        "payments_received": payments_received,
+        "types_last_month": type_last_month
     }
         
     return JsonResponse(data={"data":data})

@@ -27,7 +27,10 @@ const Dashboard = ({ message }) => {
 
     const scren_dash_row = getScreen_dash_row();
 
-    const [data, setData] = useState({});
+    const [parked, setParked] = useState({});
+    const [entrances, setEntrances] = useState({});
+    const [payments_receive, setReceive] = useState({});
+    const [payments_received, setReceived] = useState({});
 
     const [graficoFaturamento, setFaturamento] = useState([
         {"data":"12/07", "VALOR": "44.3"},{"data":"13/07", "VALOR": "30.3"},{"data":"14/07", "VALOR": "41.3"},
@@ -102,10 +105,10 @@ const Dashboard = ({ message }) => {
         </header>
         <section className="dash-row">
             <div className="dash-cards">
-                <Card title={"Estacionados"} valor={50} indice={1.33934532} legendIndice={" em relação das ultimas 24h."}/>
-                <Card title={"Total a Receber"} valor={"R$ 458,30"} indice={0} legendIndice={" em relação as ultimas 24h."}/>
-                <Card title={"Total de Entradas Hoje"} valor={247} indice={4.33934532} legendIndice={" em relação aos ultimos 30 dias."}/>
-                <Card title={"Total Recebido"} valor={"R$ 1350,80"} indice={-2.33934532} legendIndice={" em relação aos ultimos 30 dias."}/>
+                <Card data={parked}/>
+                <Card data={payments_receive}/>
+                <Card data={entrances}/>
+                <Card data={payments_received}/>
             </div>
             <div className="chart">
                 <Bar 

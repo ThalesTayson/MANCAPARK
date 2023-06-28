@@ -60,7 +60,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mancapark.wsgi.application'
 
-default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'mancapark.db')
+default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'KoalaDB.sqlite3')
 DATABASES = {
     'default': config(
         'DATABASE_URL',

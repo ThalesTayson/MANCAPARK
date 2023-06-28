@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from app.models import Modelos, Marcas, Tipos
+from app.models import Modelos, Marcas
 
 class MarcaForm(ModelForm):
     class Meta:

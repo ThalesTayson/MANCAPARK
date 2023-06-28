@@ -3,7 +3,12 @@ import '../CSS/Card.css';
 import SVG_Icon_down from '../SVG/arrow-down.svg';
 import SVG_Icon_up from '../SVG/arrow-up.svg';
 
-const Card = ({ title, valor, indice, legendIndice }) => {
+const Card = ({ data }) => {
+    const valor = data?.total;
+    const title = data?.title;
+    const indice = data?.indexes;
+    const legendIndice = data?.subtitle;
+
     let icon = <></>;
     const style = {color: "#837e7e"};
 
