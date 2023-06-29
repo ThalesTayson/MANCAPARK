@@ -86,19 +86,13 @@ const Dashboard = ({ message }) => {
     }
 
     useEffect(()=>{
-        if (graficoEntradas.length === 0){
-            get_graficoEntradas();
-        }
-        if (graficoFaturamento.length === 0){
-            get_graficoFaturamento();
-        }
-        if (graficoTipos.length === 0){
-            get_graficoTipos();
-        }
         if (Object.keys(parked).length === 0){
             get_dados();
+            get_graficoEntradas();
+            get_graficoFaturamento();
+            get_graficoTipos();
         }
-    }, [graficoEntradas, graficoFaturamento, graficoTipos, parked] )
+    }, [parked] )
 
     return (
         <>

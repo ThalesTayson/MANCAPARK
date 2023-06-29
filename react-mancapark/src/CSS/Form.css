@@ -154,6 +154,18 @@ form.form-generic .Field select {
     -moz-appearance:    none;
     appearance:         none;
 }
+@media screen and (orientation: portrait) and (max-width: 600px) {
+    form.form-generic{
+        width: 70vw;
+        max-width: 70vw;
+        max-height: 80vh;
+        top: 50vh;
+        left: 15vw;
+    }
+    form.form-generic .Field {
+        min-width: 100%;
+    }
+}
 
 @-webkit-keyframes fadeinForm {
     from {

@@ -1,0 +1,199 @@
+body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    background-color: #f6f6f6;
+}
+header{
+    position: fixed;
+    left: 0;
+    top:0;
+    height: 70px;
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.133) 3px 1.6px 3.6px 0px, rgba(0, 0, 0, 0.11) 0px 0.3px 0.9px 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    background-color: #FFFFFF;
+    z-index: 1;
+}
+h1.title {
+    margin: 0 0 0 40px;
+}
+section {
+    width: 45%;
+    display: flex;
+    text-align: justify;
+    flex-direction: column;
+    align-items: center;
+}
+main {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+form {
+    background-color: #fff;
+    display: block;
+    padding: 10px;
+    max-width: 300pt;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+form h2 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    text-align: center;
+    color: #000;
+}
+
+form p {
+    position: relative;
+    width: 200pt;
+}
+
+form input[type='text'], form input[type='password']  {
+    background-color: #fff;
+    width: 100%;
+    padding: 5pt 0;
+    color: #242424;
+    text-indent: 10pt;
+    min-height: 40px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    box-shadow: 0px 10px 20px -18px;
+}
+form input[type='text']:focus input[type='password']:focus{
+    border-bottom: 2px solid #5b5fc7;
+    border-radius: 4px 4px 2px 2px;
+}
+  
+form input[type='text']:hover, input[type='text']:valid,
+form input[type='password']:hover, input[type='password']:valid {
+    outline: 1px solid lightgrey;
+}
+
+form label {
+    top: 7pt;
+    position: absolute;
+    left: 15px;
+    color: #c4c4c4;
+    padding: 0 5pt;
+    pointer-events: none;
+    transition: 150ms cubic-bezier(0.4,0,0.2,1);
+}
+
+form input:focus ~ label, input:valid ~ label {
+    transform: translateY(-14pt) scale(0.8);
+    background-color: #fff;
+    color: #000;
+}
+
+form .btn_login {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    outline: none;
+    border: 1px solid rgb(33 150 243);
+    color: rgb(33 150 243);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: .75rem;
+    padding: 0.75rem 1.5rem;
+    background-color: rgb(255 255 255);
+    border-radius: 3pt;
+    width: 200pt;
+    cursor: pointer;
+}
+form .btn_login:hover{
+    box-shadow: 0 4px 6px -1px rgba(33,150,243,.4),0 2px 4px -2px rgba(33,150,243,.4);
+    background-color: rgb(33 150 243);
+    color: rgb(255 255 255);
+}
+#btn_cancelar {
+    display: none;
+    margin-top: 10px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    outline: none;
+    border: 1px solid rgb(255, 105, 105);
+    box-shadow: 0 4px 6px -1px rgba(243, 33, 33, 0.4),0 2px 4px -2px rgba(33,150,243,.4);
+    background-color: rgb(255, 105, 105);
+    color: rgb(255 255 255);
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: .75rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 3pt;
+}
+#btn_open_login{
+    display: none;
+    position: fixed;
+    right: 5px;
+    top: 10px;
+    background-color: transparent;
+    color: rgb(33 150 243);
+    outline: none;
+    border: none;
+    height: 50px;
+    width: 100px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 14pt;
+    cursor: pointer;
+    padding: 5pt;
+}
+
+@media screen and (orientation: portrait) and (max-width: 600px) {
+    .hidden-mobile {
+        visibility: hidden;
+    }
+    #btn_cancelar {
+        display: block;
+    }
+    #btn_open_login {
+        display: block;
+        z-index: 2;
+    }
+    section{
+        width: 90%;
+    }
+    main {
+        z-index: 3;
+        backdrop-filter: blur(0.5px);
+        -moz-backdrop-filter: blur(0.5px);
+        -webkit-backdrop-filter: blur(0.5px);
+        background-color: #00000010;
+        top:0;
+        left: 0;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    form .btn_login{
+        box-shadow: 0 4px 6px -1px rgba(33,150,243,.4),0 2px 4px -2px rgba(33,150,243,.4);
+        background-color: rgb(33 150 243);
+        color: rgb(255 255 255);
+        width: 100%;
+    }
+    form p {
+        position: relative;
+        width: 100%;
+    }
+}

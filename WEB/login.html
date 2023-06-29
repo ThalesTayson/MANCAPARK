@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block filesStatics %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<script defer type="text/javascript" src= "{% static 'js/login.js' %}"></script>
+{% endblock %}
+
 {% block main %}
+<input id="btn_open_login" type="button" value="entrar">
+<header>
+    <h1 class="title">MANCAPARK</h1>
+</header>
 <section>
     <p>
         Bem-vindo ao meu inovador aplicativo web de portifólio para gerenciamento de estacionamento de veículos!'</p>
@@ -11,13 +20,10 @@
         Além disso, você poderá cadastrar os veículos, inserindo informações como marca, modelo e placa, para manter um registro completo e organizado.
     </p>
     <p>
-        E Para logar e testar nessa ferramenta você pode usar o "usuario1" com a senha "senh@123" ou "usuario2" com a senha "senh@321".
-    </p>
-    <p>
-        Desenvolvido por Thales Vargas!
+        Desenvolvido por <a href="https://br.linkedin.com/in/thales-tayson-do-nascimento-vargas-442230247">Thales Vargas</a>!
     </p>
 </section>
-<main>
+<main class="hidden-mobile">
     <form method="post">
         <h2>{{ 'Por Favor faça seu login!' }}</h2>
         {% csrf_token %}
@@ -31,7 +37,8 @@
             </p>
         {% endfor %}
         <div>
-            <input class="btn_login" type="submit" value="Entrar">
+            <input class="btn_login" type="submit" value="login">
+            <input id="btn_cancelar" type="button" value="cancelar">
         </div>
     </form>
 </main>

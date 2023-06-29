@@ -32,11 +32,15 @@ const Estacionamento = ({ message }) => {
 
     useEffect(()=>{
 
+        if (data.length === 0){
+            get_tabela();
+        };
+
         const consulta_com_intervalo = setInterval(get_tabela,1500)
 
         return () => clearInterval(consulta_com_intervalo);
 
-    })
+    }, [data])
 
     return (
         <>

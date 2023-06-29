@@ -49,3 +49,10 @@ div.container-table {
     margin-left: 80px;
     margin-top: 20px;
 }
+
+@media screen and (orientation: portrait) and (max-width: 600px) {
+    div.container-table {
+        max-width: 90%;
+        margin-left: 5%;
+    }
+}
