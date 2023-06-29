@@ -65,12 +65,13 @@ def dados(req):
     query = Avulsos.objects.filter(
         pagamento__created_at__gte = yesterday
     ).aggregate(total=Sum('pagamento__valor'))
+    
     payment_last_24_hours = float(query.get('total')) if query.get('total') is not None else 0.0
     try: payments_indexes = (payment_receive * 100) / payment_last_24_hours
     except: payments_indexes = 100
     payments_receive = {
         'title': 'Total a Receber',
-        'receive': str("R$ %.2f" % float(payment_receive)).replace('.', ','),
+        'total': str("R$ %.2f" % float(payment_receive)).replace('.', ','),
         'indexes': payments_indexes - (payment_last_24_hours / 24),
         'subtitle': 'em relação às ultimas 24 horas.'
     }
@@ -88,7 +89,7 @@ def dados(req):
     
     payments_received = {
         'title': 'Total Recebido',
-        'received': str("R$ %.2f" % float(payments_total_today)).replace('.', ','),
+        'total': str("R$ %.2f" % float(payments_total_today)).replace('.', ','),
         'indexes': payments_indexes - (payments_last_30_days / 30),
         'subtitle': 'em relação aos ultimos 30 dias.'
     }
