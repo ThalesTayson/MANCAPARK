@@ -17,7 +17,9 @@ def dados(req):
     
     last_24_hours = Registros.objects.filter(
             fk_tipoRegistro__descricao = 'Entrada', 
-            fk_status__descricao = 'Inativo', created_at__gte =  yesterday).count()
+            fk_status__descricao = 'Inativo', 
+            created_at__gte =  yesterday,
+            created_at__lte =  now - timezone.timedelta(minutes=60)).count()
     parked_total_now = Estacionamento.objects.filter(fk_status__descricao = 'Ativo').count()
     try: parked_indexes = (parked_total_now * 100) / last_24_hours
     except: parked_indexes = 100
@@ -91,9 +93,23 @@ def dados(req):
         'subtitle': 'em relação aos ultimos 30 dias.'
     }
     
+    data = {
+        "parked": parked,
+        "entrances": entrances,
+        "payments_receive": payments_receive,
+        "payments_received": payments_received
+    }
+        
+    return JsonResponse(data={"data":data})
+
+def graficoTipos(req):
+    now = timezone.now().replace(hour=0,minute=0,second=0,microsecond=0)
+    thirty_days = now - timezone.timedelta(days=30)
+    
     type_last_month = []
+    
     query = Registros.objects.filter(
-        created_at__gte = (now - timezone.timedelta(days=30)),
+        created_at__gte = (thirty_days - timezone.timedelta(days=30)),
         fk_tipoRegistro__descricao = 'Entrada'
     ).values(
         'fk_veiculo__fk_modelo__fk_tipo__descricao'
@@ -101,21 +117,14 @@ def dados(req):
     ).order_by(
         'fk_veiculo__fk_modelo__fk_tipo__descricao'
     )
-    for row in query: 
-        type_last_month.append([
-            row.get('fk_veiculo__fk_modelo__fk_tipo__descricao'),
-            row.get('count')
-        ])
     
-    data = {
-        "parked": parked,
-        "entrances": entrances,
-        "payments_receive": payments_receive,
-        "payments_received": payments_received,
-        "types_last_month": type_last_month
-    }
-        
-    return JsonResponse(data={"data":data})
+    for row in query: 
+        type_last_month.append({
+            "key": row.get('fk_veiculo__fk_modelo__fk_tipo__descricao'),
+            "value": row.get('count')
+        })
+    
+    return JsonResponse(data={"data":type_last_month})
 
 def graficoFaturamento(req):
     now = timezone.now().replace(hour=0,minute=0,second=0,microsecond=0)
@@ -123,7 +132,7 @@ def graficoFaturamento(req):
         date_ini = local_to_utc(timezone.datetime.strptime(req.GET['date_inicial'], '%Y-%m-%d'))
         date_fim = local_to_utc(timezone.datetime.strptime(req.GET['date_fim'], '%Y-%m-%d')) + timezone.timedelta(days=1)
     except:
-        date_ini = (now - timezone.timedelta(days=7))
+        date_ini = (now - timezone.timedelta(days=30))
         date_fim = (now + timezone.timedelta(days=1))
         
     data = []

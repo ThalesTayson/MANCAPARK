@@ -65,7 +65,7 @@ class InativarClienteForm(ModelForm):
         data.save()
         
         for veiculo in Veiculos.objects.filter(fk_cliente = data):
-            veiculo.fk_status = self.cleaned_data['fk_status']
+            veiculo.fk_status = data.fk_status
             veiculo.save()
         
         return data

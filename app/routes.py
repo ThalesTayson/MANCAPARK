@@ -45,5 +45,6 @@ urlpatterns = [
     path('dashboard/dados', Dashboard.dados, name='dados'),
     path('dashboard/grafico-entradas', Dashboard.graficoEntradas, name='grafico'),
     path('dashboard/grafico-faturamento', Dashboard.graficoFaturamento, name='grafico'),
+    path('dashboard/grafico-tipos', Dashboard.graficoTipos, name='grafico')
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

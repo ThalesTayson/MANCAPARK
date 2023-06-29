@@ -29,7 +29,7 @@ const Card = ({ data }) => {
                 {valor}
             </p>
             <p className="dash-indice">
-                <span className="indice" style={style}>{icon}{Number(indice).toFixed(4)}{"%"}</span><span className="indice-legend">{legendIndice}</span>
+                <span className="indice" style={style}>{icon}{Number(indice).toFixed(2)}{"%"}</span><span className="indice-legend">{" " + legendIndice}</span>
             </p>
         </div>
     </>);

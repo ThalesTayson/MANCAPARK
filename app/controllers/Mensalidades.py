@@ -39,9 +39,8 @@ def cliente_inativar(req, id):
     title = "Inativar Cliente"
     message = None
     var_btn_value = "INATIVAR"
-    
-    if ( req.POST ):
-        form = InativarClienteForm(req.POST, req.FILES, instance = model)
+    if ( req.method == 'POST' ):
+        form = InativarClienteForm(data=req.POST, files=req.FILES, instance = model)
         if form.is_valid():
             form.save()
             message = {"status": "success", "msg": "Cliente Inativado com sucesso!"}

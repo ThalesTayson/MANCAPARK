@@ -26,8 +26,9 @@ const Form = ({ link, messages, update_data }) => {
                 let data = resp;
                 if (Object.keys(data).includes('form')) setHasform(true);
                 setFields(data.form);
-                let { status , msg } = data.message
+                let { status , msg } = data.message;
                 messages({status ,msg});
+                console.log(status);
                 if (status === 'success') update_data();
             });
     }

@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', default='sdfjvsadifhu!@$!248236754235sdyvfgb2!@1896QAW3G97FR16!@#$@$¨#%&3gSDfDGp')
 
-DEBUG = False#'RENDER' not in os.environ
+DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = ['localhost']
 
@@ -60,7 +60,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mancapark.wsgi.application'
 
-default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'KoalaDB.sqlite3')
+default_dburl = 'mysql://root:1234@localhost:3306/db_mancapark'
+db = {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'db_mancapark',
+    'USER': 'root',
+    'PASSWORD': '1234',
+    'HOST':'localhost',
+    'PORT':'3306',
+}
 DATABASES = {
     'default': config(
         'DATABASE_URL',
@@ -68,19 +76,6 @@ DATABASES = {
         conn_max_age=600
     )
 }
-
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_mancapark',
-        'USER': 'root',
-        'PASSWORD': '1234',
-        'HOST':'localhost',
-        'PORT':'3306',
-    }
-}
-"""
 
 AUTH_PASSWORD_VALIDATORS = [
     {

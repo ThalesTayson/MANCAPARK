@@ -32,34 +32,11 @@ const Dashboard = ({ message }) => {
     const [payments_receive, setReceive] = useState({});
     const [payments_received, setReceived] = useState({});
 
-    const [graficoFaturamento, setFaturamento] = useState([
-        {"data":"12/07", "VALOR": "44.3"},{"data":"13/07", "VALOR": "30.3"},{"data":"14/07", "VALOR": "41.3"},
-        {"data":"15/07", "VALOR": "44.3"},{"data":"16/07", "VALOR": "30.3"},{"data":"17/07", "VALOR": "41.3"},
-        {"data":"18/07", "VALOR": "44.3"},{"data":"19/07", "VALOR": "30.3"},{"data":"20/07", "VALOR": "41.3"},
-        {"data":"21/07", "VALOR": "44.3"},{"data":"22/07", "VALOR": "30.3"},{"data":"23/07", "VALOR": "41.3"},
-        {"data":"12/07", "VALOR": "44.3"},{"data":"13/07", "VALOR": "30.3"},{"data":"14/07", "VALOR": "41.3"},
-        {"data":"15/07", "VALOR": "44.3"},{"data":"16/07", "VALOR": "30.3"},{"data":"17/07", "VALOR": "41.3"},
-        {"data":"18/07", "VALOR": "44.3"},{"data":"19/07", "VALOR": "30.3"},{"data":"20/07", "VALOR": "41.3"},
-        {"data":"21/07", "VALOR": "44.3"},{"data":"22/07", "VALOR": "30.3"},{"data":"23/07", "VALOR": "41.3"}
-    ]);
+    const [graficoFaturamento, setFaturamento] = useState([]);
 
-    const [graficoEntradas, setEntradas] = useState([
-        {"data":"12/07", "VALOR": "44.3"},
-        {"data":"13/07", "VALOR": "30.3"},
-        {"data":"12/07", "VALOR": "44.3"},
-        {"data":"13/07", "VALOR": "30.3"},
-        {"data":"12/07", "VALOR": "44.3"},
-        {"data":"13/07", "VALOR": "30.3"},
-        {"data":"12/07", "VALOR": "44.3"},
-        {"data":"13/07", "VALOR": "30.3"},
-        {"data":"14/07", "VALOR": "41.3"}
-    ]);
+    const [graficoEntradas, setEntradas] = useState([]);
 
-    const [graficoTipos, setTipos] = useState([
-        {"key":"Carro", "qtd": "22"},
-        {"key":"Moto", "qtd": "15"},
-        {"key":"Caminhão", "qtd": "3"},
-    ]);
+    const [graficoTipos, setTipos] = useState([]);
 
     const get_dados = () => {
         let Method = "GET";
@@ -68,7 +45,10 @@ const Dashboard = ({ message }) => {
             .then((resp) => resp.json())
             .then((resp) => {
                 let _data = resp;
-                setData(_data.data);
+                setParked(_data.data.parked);
+                setEntrances(_data.data.entrances);
+                setReceive(_data.data.payments_receive);
+                setReceived(_data.data.payments_received);
             });
     }
 
@@ -85,7 +65,7 @@ const Dashboard = ({ message }) => {
 
     const get_graficoEntradas = () => {
         let Method = "GET";
-        let link = "/estacionamento/grafico-entradas";
+        let link = "/dashboard/grafico-entradas";
         submit({Method, link})
             .then((resp) => resp.json())
             .then((resp) => {
@@ -94,9 +74,31 @@ const Dashboard = ({ message }) => {
             });
     }
 
-    useEffect(()=>{
+    const get_graficoTipos = () => {
+        let Method = "GET";
+        let link = "/dashboard/grafico-tipos";
+        submit({Method, link})
+            .then((resp) => resp.json())
+            .then((resp) => {
+                let _data = resp;
+                setTipos(_data.data);
+            });
+    }
 
-    }, [] )
+    useEffect(()=>{
+        if (graficoEntradas.length === 0){
+            get_graficoEntradas();
+        }
+        if (graficoFaturamento.length === 0){
+            get_graficoFaturamento();
+        }
+        if (graficoTipos.length === 0){
+            get_graficoTipos();
+        }
+        if (Object.keys(parked).length === 0){
+            get_dados();
+        }
+    }, [graficoEntradas, graficoFaturamento, graficoTipos, parked] )
 
     return (
         <>
@@ -133,7 +135,7 @@ const Dashboard = ({ message }) => {
                 <Pie 
                     width={(is_mobile())? (scren_dash_row.w) - 20 : (scren_dash_row.w * .3) - 60} 
                     height={(is_mobile())? (scren_dash_row.w * 0.7) :scren_dash_row.h - 20} 
-                    title={"Tipos Frequentes"} 
+                    title={"Tipos Frequentes (Ultimos 30 dias)"} 
                     data={graficoTipos} 
                 />
             </div>

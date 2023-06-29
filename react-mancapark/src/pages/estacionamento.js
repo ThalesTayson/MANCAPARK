@@ -25,11 +25,9 @@ const Estacionamento = ({ message }) => {
         setFundo(<></>);
     };
 
-    const update_data = () => {};
-
     const req_form = ( link ) => {
         setFundo(<div onClick={closeForm} className="fundoVidro" />)
-        setForm(<Form link={link} messages={message} update_data={update_data} />);
+        setForm(<Form link={link} messages={message} update_data={get_tabela} />);
     };
 
     useEffect(()=>{
